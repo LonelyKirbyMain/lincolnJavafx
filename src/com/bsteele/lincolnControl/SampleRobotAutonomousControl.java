@@ -16,12 +16,15 @@ public class SampleRobotAutonomousControl
      */
     @Override
     public void run(RobotInstruction robot) {
-        //  move to location
         try {
+            //  move to location
             //  use some motion instructions to get motion
-            robot.moveTank(RobotInstruction.MotorRequest.onForRotations, 0.7, 0.7, 4, RobotInstruction.MotorRequestEnd.coast);
-            robot.moveTank(RobotInstruction.MotorRequest.onForRotations, -0.4, -0.7, 2.3, RobotInstruction.MotorRequestEnd.coast);
-            robot.moveTank(RobotInstruction.MotorRequest.onForRotations, 0.7, 0.7, 4, RobotInstruction.MotorRequestEnd.brake);
+            robot.moveTank(RobotInstruction.MotorRequest.onForRotations, 0.7, 0.7, 4,
+                    RobotInstruction.MotorRequestEnd.coast);
+            robot.moveTank(RobotInstruction.MotorRequest.onForRotations, -0.4, -0.7, 2.3,
+                    RobotInstruction.MotorRequestEnd.coast);
+            robot.moveTank(RobotInstruction.MotorRequest.onForRotations, 0.7, 0.7, 4,
+                    RobotInstruction.MotorRequestEnd.brake);
 
             //  sample the color
             robot.calibrateReflectedLightIntensity(RobotInstruction.Intensity.reset);
@@ -33,6 +36,9 @@ public class SampleRobotAutonomousControl
                 //	assume it's the blue ball
                 System.out.println("it's blue");
             }
+
+            //  we're done
+
         } catch (TerminationException e) {
             //  terminate as requested
         }

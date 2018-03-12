@@ -29,6 +29,13 @@ public final class RobotSimulationControlSequencer
         implements RobotInstruction,
         RestartEventHandler {
 
+    /**
+     * Start simulating a robot by emulating robot command sequences
+     * from the control on the given robot.
+     *
+     * @param robotAutonomousControl
+     * @param robotModel
+     */
     RobotSimulationControlSequencer(RobotAutonomousControl robotAutonomousControl, RobotModel robotModel) {
         this.robotAutonomousControl = robotAutonomousControl;
         this.robotModel = robotModel;
@@ -153,12 +160,15 @@ public final class RobotSimulationControlSequencer
         }
     }
 
-
+    /**
+     * Restart the simulation.
+     *
+     * @param event
+     */
     @Override
     public void onRestartEvent(RestartEvent event) {
         stop();
-        //  fixme: reset the model state here... well at least do a better job
-        robotModel.setLocation(200, 200);// way temp
+        robotModel.reset();
         start();
     }
 
@@ -169,5 +179,4 @@ public final class RobotSimulationControlSequencer
     private double delay = 0;
     private boolean doRun = true;
     private static final Logger logger = Logger.getLogger(RobotSimulationControlSequencer.class.getName());
-
 }

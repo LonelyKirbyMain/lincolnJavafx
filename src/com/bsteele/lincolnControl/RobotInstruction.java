@@ -40,10 +40,12 @@ public interface RobotInstruction {
     void motor(MotorRequest request, double value, MotorRequestEnd requestEnd)
             throws TerminationException;
 
-    void moveSteering(MotorRequest request, double steeringDegrees, double value, MotorRequestEnd requestEnd)
+    void moveSteering(MotorRequest request, double steeringDegrees, double value,
+                      MotorRequestEnd requestEnd)
             throws TerminationException;
 
-    void moveTank(MotorRequest request, double leftPower, double rightPower, double rotations, MotorRequestEnd requestEnd)
+    void moveTank(MotorRequest request, double leftPower, double rightPower, double rotations,
+                  MotorRequestEnd requestEnd)
             throws TerminationException;
 
     RgbColor measureColor()
