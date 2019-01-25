@@ -2,10 +2,11 @@
  * Copyright 2016 Robert Steele, bsteele.com
  * All rights reserved.
  */
-package com.bsteele.lincolnSim;
+package com.lincolnRobotics.lincolnSimulation;
+
+
 
 import com.lincolnRobotics.robotControl.*;
-
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,6 +81,11 @@ public final class RobotSimulationControlSequencer
      */
     public boolean isDone(){
         return true;
+    }
+
+    @Override
+    public RobotType getRobotType() {
+        return RobotType.simulation;
     }
 
 //    @Override

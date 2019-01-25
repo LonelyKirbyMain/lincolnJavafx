@@ -1,4 +1,4 @@
-package com.bsteele.lincolnSim;
+package com.lincolnRobotics.lincolnSimulation;
 
 /**
  * Robot simulation model used for maintaining state and

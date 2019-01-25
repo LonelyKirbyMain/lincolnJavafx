@@ -1,6 +1,7 @@
-package com.bsteele.lincolnSim;
+package com.lincolnRobotics.lincolnSimulation;
 
-import com.bsteele.lincolnAutonomous.SampleRobotAutonomousControl;
+
+import com.lincolnRobotics.robotAutonomous.SampleRobotAutonomousControl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
