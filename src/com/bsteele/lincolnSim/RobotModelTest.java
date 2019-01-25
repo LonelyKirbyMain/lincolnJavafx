@@ -1,11 +1,13 @@
 package com.bsteele.lincolnSim;
 
+import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class RobotModelTest
 {
 
-    @org.junit.Test
+    @Test
     public void setLocation()
     {
         int width = 30;
@@ -35,7 +37,7 @@ public class RobotModelTest
 
     }
 
-    @org.junit.Test
+    @Test
     public void reset()
     {
         System.out.println("test reset()");

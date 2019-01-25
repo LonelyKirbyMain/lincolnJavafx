@@ -1,5 +1,7 @@
 package com.bsteele.lincolnSim;
 
+import com.lincolnRobotics.robotControl.RestartEvent;
+import com.lincolnRobotics.robotControl.RestartEventHandler;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
