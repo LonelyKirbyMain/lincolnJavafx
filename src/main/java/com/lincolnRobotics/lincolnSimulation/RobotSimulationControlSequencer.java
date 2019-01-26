@@ -34,8 +34,8 @@ public final class RobotSimulationControlSequencer
      * Start simulating a robot by emulating robot command sequences
      * from the control on the given robot.
      *
-     * @param robotAutonomousControl
-     * @param robotModel
+     * @param robotAutonomousControl control to be used
+     * @param robotModel the model to be used in the simulation
      */
     RobotSimulationControlSequencer(RobotAutonomousControl robotAutonomousControl, RobotModel robotModel) {
         this.robotAutonomousControl = robotAutonomousControl;
@@ -189,7 +189,7 @@ public final class RobotSimulationControlSequencer
     /**
      * Restart the simulation.
      *
-     * @param event
+     * @param event the restart event.  Note that the event will have no data.
      */
     @Override
     public void onRestartEvent(RestartEvent event) {

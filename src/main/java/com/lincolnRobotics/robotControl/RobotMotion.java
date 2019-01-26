@@ -50,8 +50,7 @@ public interface RobotMotion {
 	 *                        requested
 	 * @param steering        the "steering" input: -100 full left, 0 straight, 100
 	 *                        full right
-	 * @param power           the "power" (speed) of the motor(s), 0 none, 100 full
-	 * @param power           +- 100 power applied
+	 * @param power           the "power" (speed) of the motor(s) in units of percent, 0 none, 100 full, -100 full reverse
 	 * @param rotations       required rotation of the wheels
 	 * @param brakeAtEnd      true if braking at the end
 	 * @throws TerminationException thrown if the control identifies a failure
