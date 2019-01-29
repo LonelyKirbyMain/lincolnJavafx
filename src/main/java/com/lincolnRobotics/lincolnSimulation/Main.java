@@ -52,10 +52,8 @@ public class Main extends Application {
      * This method is called when the application should stop, and provides a
      * convenient place to prepare for application exit and destroy resources.
      * <p>
-     * <p>
      * The implementation of this method provided by the Application class does nothing.
      * </p>
-     * <p>
      * <p>
      * NOTE: This method is called on the JavaFX Application Thread.
      * </p>
