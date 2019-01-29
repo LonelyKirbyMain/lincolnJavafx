@@ -28,7 +28,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         //  load the simulation user interface
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("/sim.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        //  Intellij idea note: if the resource is not found:
+        //  file, project structure, modules, java app module (lincolnJavafx), sources
+        //  verify resource folders includes src/main/resources
+        loader.setLocation(getClass().getResource("/sim.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Lincoln Robot Simulation");
         primaryStage.setScene(new Scene(root, 850, 900));
