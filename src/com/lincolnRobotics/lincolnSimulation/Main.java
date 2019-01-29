@@ -1,7 +1,7 @@
 package com.lincolnRobotics.lincolnSimulation;
 
 
-import com.lincolnRobotics.robotAutonomous.SampleRobotAutonomousControl;
+import com.lincolnRobotics.robotAutonomous.SampleRobotMotionSequencer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,10 +15,19 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
+    /**
+     * Start the JavaFx simulation of the Lincoln RTC robot.
+     * <p>
+     * JavaFx is a Java user interface (UI) framework.
+     * </p>
+     *
+     * @param primaryStage the primary JavaFx stage for this application
+     * @throws Exception any java exception thrown by the application
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        //  load the sim user interface
+        //  load the simulation user interface
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sim.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Lincoln Robot Simulation");
@@ -26,17 +35,17 @@ public class Main extends Application {
         primaryStage.show();
 
         //  connect the autonomous controller to the simulation sequencer
-        {
-            RobotSimulationJavaFxController robotSimulationJavaFxController = loader.getController();
-            RobotModel m = robotSimulationJavaFxController.getRobotModel();
+        RobotSimulationJavaFxController robotSimulationJavaFxController = loader.getController();
+        RobotModel m = robotSimulationJavaFxController.getRobotModel();
+        SimulationRobot robot = new SimulationRobot(m);
 
-            //  start the simulation
-            robotSimulationControlSequencer =
-                    new RobotSimulationControlSequencer(new SampleRobotAutonomousControl(), m);
+        //  run the main robotMotionSequencer loop
+        simulationMainRobotLoop = new SimulationMainRobotLoop(new SampleRobotMotionSequencer(robot));
 
-            //  register the restart event handler
-            robotSimulationJavaFxController.registerRestartEventHandler(robotSimulationControlSequencer);
-        }
+        //  register the restart event handler
+        robotSimulationJavaFxController.registerRestartEventHandler(simulationMainRobotLoop);
+
+        simulationMainRobotLoop.start();
     }
 
     /**
@@ -53,14 +62,18 @@ public class Main extends Application {
      */
     @Override
     public void stop() throws Exception {
-        if (robotSimulationControlSequencer != null)
-            robotSimulationControlSequencer.stop();
+        if (simulationMainRobotLoop != null)
+            simulationMainRobotLoop.stop();
         super.stop();
     }
 
+    /** The initial Java method to launch the application.
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
-    private RobotSimulationControlSequencer robotSimulationControlSequencer;
+    private SimulationMainRobotLoop simulationMainRobotLoop;
 }

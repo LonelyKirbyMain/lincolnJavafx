@@ -6,9 +6,9 @@ import com.lincolnRobotics.robotControl.TerminationException;
 
 public class SampleRobotAutonomousControl implements RobotAutonomousControl {
 	/**
-     * Control a robot in autonomous mode
+     * Control a robotMotionSequencer in autonomous mode
      *
-     * @param robot the robot to use in this control
+     * @param robot the robotMotionSequencer to use in this control
      */
     @Override
     public void run(RobotMotion robot) {
@@ -20,8 +20,8 @@ public class SampleRobotAutonomousControl implements RobotAutonomousControl {
             robot.moveTank(RobotMotion.MotionControl.onForRotations, 70, 70, 4, false);
 
             //  sample the color
-//            robot.calibrateReflectedLightIntensity(RobotMotion.Intensity.reset);
-//            RgbColor color = robot.measureColor();
+//            robotMotionSequencer.calibrateReflectedLightIntensity(RobotMotion.Intensity.reset);
+//            RgbColor color = robotMotionSequencer.measureColor();
 //            if (color.getRed() > color.getBlue()) {
 //                //	assume it's the red ball
 //                System.out.println("it's red");

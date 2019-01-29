@@ -5,23 +5,26 @@
 package com.lincolnRobotics.lincolnSimulation;
 
 
-
-import com.lincolnRobotics.robotControl.*;
+import com.lincolnRobotics.robotControl.RestartEvent;
+import com.lincolnRobotics.robotControl.RestartEventHandler;
+import com.lincolnRobotics.robotControl.RobotAutonomousControl;
+import com.lincolnRobotics.robotControl.RobotMotion;
+import com.lincolnRobotics.robotControl.TerminationException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Robot control sequencer to run a sequence of robot motion instructions
- * to the simulated robot.
+ * Robot control sequencer to run a sequence of robotMotionSequencer motion instructions
+ * to the simulated robotMotionSequencer.
  * <p>
  * The implementation uses two threads.  This allows the setup to return
  * immediately but still do work over time.  The first thread runs the autonomous
- * control robot instruction sequence from the robot controls, suspending until a
+ * control robotMotionSequencer instruction sequence from the robotMotionSequencer controls, suspending until a
  * requested instruction has completed.  A termination exception is thrown if the
  * instruction sequence has been terminated.   The second thread is used to simulate
  * the given instruction.  This may take a number of sample periods before it's
- * completed... just as it would with a real robot.
+ * completed... just as it would with a real robotMotionSequencer.
  * </p>
  *
  * @author bob
@@ -31,8 +34,8 @@ public final class RobotSimulationControlSequencer
         RestartEventHandler {
 
     /**
-     * Start simulating a robot by emulating robot command sequences
-     * from the control on the given robot.
+     * Start simulating a robotMotionSequencer by emulating robotMotionSequencer command sequences
+     * from the control on the given robotMotionSequencer.
      *
      * @param robotAutonomousControl
      * @param robotModel
@@ -56,11 +59,10 @@ public final class RobotSimulationControlSequencer
 
     @Override
     public void moveTank(MotionControl request, int leftPower, int rightPower, int rotations, boolean requestEnd)
-            throws TerminationException
-    {
+            throws TerminationException {
         System.out.println(String.format("sim moveTank( %s, %d, %d, %d, %b )",
                 request.toString(), leftPower, rightPower, rotations, requestEnd));
-        this.leftPower = leftPower/100.0;
+        this.leftPower = leftPower / 100.0;
         delay(Math.abs(rotations) * 0.5);
     }
 
@@ -79,13 +81,18 @@ public final class RobotSimulationControlSequencer
      *
      * @return true if the motion command has completed.
      */
-    public boolean isDone(){
+    public boolean isDone() {
         return true;
     }
 
     @Override
     public RobotType getRobotType() {
         return RobotType.simulation;
+    }
+
+    @Override
+    public void tick() {
+        //  empty
     }
 
 //    @Override

@@ -1,7 +1,7 @@
 package com.lincolnRobotics.lincolnSimulation;
 
 /**
- * Robot simulation model used for maintaining state and
+ * Robot simulation model used for maintaining robot state and
  * rendering on the simulated playing field.
  * <p>
  * CopyRight 2018 bsteele.com

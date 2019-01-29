@@ -1,7 +1,7 @@
 package com.lincolnRobotics.robotControl;
 
 /**
- * Interface used to implement robot controls in Lincoln High School Java.
+ * Interface used to implement robotMotionSequencer controls in Lincoln High School Java.
  * 
  * @author bob
  *
@@ -10,15 +10,17 @@ package com.lincolnRobotics.robotControl;
 public interface RobotMotion {
 
 	/**
-	 * Describe the type of robot provided
+	 * Describe the type of robotMotionSequencer provided
 	 *
 	 */
 	public enum RobotType {
-		/** a Lejos robot based on the Legos EV3 hardware */
+		/**
+		 * a Lejos robotMotionSequencer based on the Legos EV3 hardware
+		 */
 		lejos,
 		/** Lincoln robotics simulation */
 		simulation,
-		/** an TFC robot */
+		/** an TFC robotMotionSequencer */
 		ftc;
 	}
 	
@@ -97,11 +99,17 @@ public interface RobotMotion {
 	 * @return true if the motion command has completed.
 	 */
 	public boolean isDone();
-	
+
 	/**
-	 * provide the robot type provided by the implementation of the interface
-	 * @return the type of robot provided
+	 * provide the robotMotionSequencer type provided by the implementation of the interface
+	 * @return the type of robotMotionSequencer provided
 	 */
 	public RobotType getRobotType();
+
+
+	/**
+	 * Simulation time tick to simulate robot behavior.  This will be empty for a real robot.
+	 */
+	public void tick();
 
 }

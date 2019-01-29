@@ -87,7 +87,7 @@ public class RobotSimulationJavaFxController
                     robotModel.getX(), h - robotModel.getY());
             gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 
-            //  robot
+            //  robotMotionSequencer
             gc.setFill(cardinal);
             gc.fillRect(robotModel.getX(), h - robotModel.getY(), robotWidth, robotDepth);
             gc.setFill(green);
