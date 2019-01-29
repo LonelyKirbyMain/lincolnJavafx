@@ -28,7 +28,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         //  load the simulation user interface
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("sim.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("/sim.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Lincoln Robot Simulation");
         primaryStage.setScene(new Scene(root, 850, 900));
