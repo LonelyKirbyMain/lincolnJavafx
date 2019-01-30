@@ -32,7 +32,7 @@ public class SampleRobotMotionSequencer implements RobotMotionSequencer {
                     state = 0;  //  error!
                 case 0:
                     logger.info("sequencer start");
-                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations, 70, 35, 4, false);
+                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations, 0, 35, 4, false);
                     state++;
                     break;
                 case 1:
