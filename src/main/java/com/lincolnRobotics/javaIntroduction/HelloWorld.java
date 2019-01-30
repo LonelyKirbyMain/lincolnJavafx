@@ -807,6 +807,8 @@ public class HelloWorld {
 
         /**
          * Get the y position of the robotMotionSequencer.
+         *
+         * @return the y position of the robot
          */
         public int getYPosition() {
             return yPosition;
@@ -814,6 +816,7 @@ public class HelloWorld {
 
         /**
          * Set the y position of the robotMotionSequencer.
+         * @param yPosition the new y position
          */
         public void setYPosition(int yPosition) {
             this.yPosition = yPosition;

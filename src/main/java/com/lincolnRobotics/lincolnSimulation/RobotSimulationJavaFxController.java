@@ -78,14 +78,15 @@ public class RobotSimulationJavaFxController
 
         void render(GraphicsContext gc)
         {
-
             gc.save(); // saves the current state on stack, including the current transform
             double h = gc.getCanvas().getHeight();  //  used to deal with upside down y axis
 
+            //  translate center to origin
             //  rotate
-            Rotate r = new Rotate(radiansToDegrees(robotModel.getRot()),
+            Rotate r = new Rotate(radiansToDegrees(robotModel.getRotation()),
                     robotModel.getX(), h - robotModel.getY());
             gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+            //  translate center back to original
 
             //  robotMotionSequencer
             gc.setFill(cardinal);

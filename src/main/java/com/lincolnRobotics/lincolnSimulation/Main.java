@@ -2,6 +2,7 @@ package com.lincolnRobotics.lincolnSimulation;
 
 
 import com.lincolnRobotics.robotAutonomous.SampleRobotMotionSequencer;
+import com.lincolnRobotics.robotControl.RobotMotion;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +17,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     /**
-     * Start the JavaFx simulation of the Lincoln RTC robot.
+     * Start the JavaFx simulation of the Lincoln simulation robot.
      * <p>
      * JavaFx is a Java user interface (UI) framework.
      * </p>
@@ -41,10 +42,10 @@ public class Main extends Application {
         //  connect the autonomous controller to the simulation sequencer
         RobotSimulationJavaFxController robotSimulationJavaFxController = loader.getController();
         RobotModel m = robotSimulationJavaFxController.getRobotModel();
-        SimulationRobot robot = new SimulationRobot(m);
+        RobotMotion robotMotion = new SimulationRobotMotion(m);
 
         //  run the main robotMotionSequencer loop
-        simulationMainRobotLoop = new SimulationMainRobotLoop(new SampleRobotMotionSequencer(robot));
+        simulationMainRobotLoop = new SimulationMainRobotLoop(new SampleRobotMotionSequencer(robotMotion));
 
         //  register the restart event handler
         robotSimulationJavaFxController.registerRestartEventHandler(simulationMainRobotLoop);
