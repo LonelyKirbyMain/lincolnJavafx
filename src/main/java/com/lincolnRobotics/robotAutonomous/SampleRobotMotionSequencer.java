@@ -3,13 +3,12 @@ package com.lincolnRobotics.robotAutonomous;
 import com.lincolnRobotics.robotControl.RobotMotion;
 import com.lincolnRobotics.robotControl.RobotMotionSequencer;
 import com.lincolnRobotics.robotControl.TerminationException;
-import com.sun.istack.internal.NotNull;
 
 import java.util.logging.Logger;
 
 public class SampleRobotMotionSequencer implements RobotMotionSequencer {
 
-    public SampleRobotMotionSequencer(@NotNull RobotMotion robotMotion) {
+    public SampleRobotMotionSequencer(RobotMotion robotMotion) {
         this.robotMotion = robotMotion;
     }
 
