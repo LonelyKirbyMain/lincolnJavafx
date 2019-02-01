@@ -6,6 +6,9 @@ import com.lincolnRobotics.robotControl.TerminationException;
 
 import java.util.logging.Logger;
 
+/**
+ * A sample robot motion sequencer.
+ */
 public class SampleRobotMotionSequencer implements RobotMotionSequencer {
 
     public SampleRobotMotionSequencer(RobotMotion robotMotion) {
@@ -24,8 +27,6 @@ public class SampleRobotMotionSequencer implements RobotMotionSequencer {
     @Override
     public void tick() {
         try {
-            robotMotion.tick();
-
             switch (state) {
                 default:
                     state = 0;  //  error!

@@ -10,7 +10,8 @@ package com.lincolnRobotics.robotControl;
  * that should execute at every clock tick,
  * and end the infinite loop when requested.
  */
-public class MainRobotLoop implements Runnable {
+public class MainRobotLoop implements Runnable,
+        RestartEventHandler {
 
     /**
      * Initialize the loop with the robot motion sequencer to be run in the loop.
@@ -45,6 +46,9 @@ public class MainRobotLoop implements Runnable {
             //  wait for the correct time
             delay();
 
+            //  run the simulation model if the robot is a simulation
+            robotMotionSequencer.getRobotMotion().tick();
+
             //  get the sequencer to issue new commands when appropriate
             robotMotionSequencer.tick();
 
@@ -72,6 +76,17 @@ public class MainRobotLoop implements Runnable {
         } catch (InterruptedException ex) {
             // do nothing
         }
+    }
+
+    /**
+     * Default restart event handler
+     *
+     * @param event the restart event
+     */
+    @Override
+    public void onRestartEvent(RestartEvent event) {
+        robotMotionSequencer.stop();
+        stop();
     }
 
     /**
@@ -120,4 +135,5 @@ public class MainRobotLoop implements Runnable {
     protected RobotMotionSequencer robotMotionSequencer;
     private boolean isActive = true;
     private int sampleHertz = 60;
+
 }

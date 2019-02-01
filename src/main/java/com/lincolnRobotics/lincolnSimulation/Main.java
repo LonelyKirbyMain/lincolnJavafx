@@ -2,6 +2,7 @@ package com.lincolnRobotics.lincolnSimulation;
 
 
 import com.lincolnRobotics.robotAutonomous.SampleRobotMotionSequencer;
+import com.lincolnRobotics.robotControl.MainRobotLoop;
 import com.lincolnRobotics.robotControl.RobotMotion;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +46,7 @@ public class Main extends Application {
         RobotMotion robotMotion = new SimulationRobotMotion(m);
 
         //  run the main robotMotionSequencer loop
-        simulationMainRobotLoop = new SimulationMainRobotLoop(new SampleRobotMotionSequencer(robotMotion));
+        simulationMainRobotLoop = new MainRobotLoop(new SampleRobotMotionSequencer(robotMotion));
 
         //  register the restart event handler
         robotSimulationJavaFxController.registerRestartEventHandler(simulationMainRobotLoop);
@@ -78,5 +79,5 @@ public class Main extends Application {
         launch(args);
     }
 
-    private SimulationMainRobotLoop simulationMainRobotLoop;
+    private MainRobotLoop simulationMainRobotLoop;
 }
