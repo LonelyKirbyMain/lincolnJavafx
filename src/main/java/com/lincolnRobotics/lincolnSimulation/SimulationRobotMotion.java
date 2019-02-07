@@ -10,7 +10,8 @@ import java.util.logging.Logger;
  * robotics simulation.
  */
 public class SimulationRobotMotion implements RobotMotion {
-    SimulationRobotMotion(RobotModel robotModel) {
+    SimulationRobotMotion(double loopHertz, RobotModel robotModel) {
+        this.loopHertz = loopHertz;
         this.robotModel = robotModel;
     }
 
@@ -117,6 +118,13 @@ public class SimulationRobotMotion implements RobotMotion {
     }
 
     /**
+     * Samples per second of the main loop
+     */
+    public double getLoopHertz() {
+        return loopHertz;
+    }
+
+    /**
      * the robot model controlled by this robot motion
      */
     private RobotModel robotModel;
@@ -140,10 +148,7 @@ public class SimulationRobotMotion implements RobotMotion {
      * robot wheel diameter
      */
     private static double wheelDiameter = 3;
-    /**
-     * Samples per second of the main loop
-     */
-    private static int samplesPerSecond = 60;
+
 
     public MotionType getMotionType() {
         return motionType;
@@ -153,14 +158,18 @@ public class SimulationRobotMotion implements RobotMotion {
         this.motionType = motionType;
     }
 
+
     private enum MotionType {
         tank,
         steering;
     }
 
+
+    private final double loopHertz;
     private MotionType motionType = MotionType.tank;
     private double powerLeftPercent;
     private double powerRightPercent;
+
 
     //  note: if you copy this logger initialization, manually update the class name to your class
     private static final Logger logger = Logger.getLogger(SimulationRobotMotion.class.getName());

@@ -12,6 +12,7 @@ class RobotModel {
      * @param fieldHeightPixels height in pixels of the simulation image
      */
     RobotModel(double fieldWidthPixels, double fieldHeightPixels) {
+
         fieldMaxWidth = fieldWidthPixels;
         fieldMaxHeight = fieldHeightPixels;
         scalePxPerCm = fieldWidthPixels / fieldWidthCm;
@@ -107,7 +108,6 @@ class RobotModel {
     private static final Character degreeCharacter = '\u00B0';
     private static final Character thetaCharacter = '\u03F4';
 
-    //private static final double scale = ;
     private static final double cmPerInch = 2.54;
     private final double widthCm = 18 * cmPerInch;
     private final double lenghtCm = getWidthCm();

@@ -43,7 +43,7 @@ public class Main extends Application {
         //  connect the autonomous controller to the simulation sequencer
         RobotSimulationJavaFxController robotSimulationJavaFxController = loader.getController();
         RobotModel m = robotSimulationJavaFxController.getRobotModel();
-        RobotMotion robotMotion = new SimulationRobotMotion(m);
+        RobotMotion robotMotion = new SimulationRobotMotion(60, m);
 
         //  run the main robotMotionSequencer loop
         simulationMainRobotLoop = new MainRobotLoop(new SampleRobotMotionSequencer(robotMotion));

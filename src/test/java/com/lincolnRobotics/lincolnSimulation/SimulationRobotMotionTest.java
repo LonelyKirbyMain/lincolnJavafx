@@ -10,7 +10,7 @@ public class SimulationRobotMotionTest {
     public void testApplyTankMotionTick() {
         RobotModel robotModel = new RobotModel(800, 800);
         robotModel.setRotation(0);
-        SimulationRobotMotion simulationRobotMotion = new SimulationRobotMotion(robotModel);
+        SimulationRobotMotion simulationRobotMotion = new SimulationRobotMotion(60, robotModel);
         System.out.println(robotModel.toString());
         try {
             simulationRobotMotion.moveTank(RobotMotion.MotionControl.onForRotations,
