@@ -66,16 +66,6 @@
             </plugin>
 
             <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.0.1</version>
-            <configuration>
-                <show>private</show>
-                <nohelp>true</nohelp>
-            </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.0</version>
@@ -105,6 +95,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <show>private</show>
+                    <nohelp>true</nohelp>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -114,6 +109,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 

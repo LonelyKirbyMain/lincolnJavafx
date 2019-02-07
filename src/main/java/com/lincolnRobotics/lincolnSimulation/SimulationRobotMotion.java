@@ -18,8 +18,9 @@ public class SimulationRobotMotion implements RobotMotion {
     @Override
     public void moveSteering(MotionControl steeringControl, int steering, int powerPercent, int rotations, boolean brakeAtEnd)
             throws TerminationException {
-        logger.fine(String.format("sim moveTank( %s, steering: speedPercent: %d, rotations: %d, brake: %b )",
-                steeringControl.toString(), powerPercent, rotations, brakeAtEnd));
+        logger.fine(String.format("sim moveTank( %s, steering: %d, speedPercent: %d, rotations: %d, brake: %b )",
+                steeringControl.toString(), steering, powerPercent, rotations, brakeAtEnd));
+
         speedPercent = limit100(powerPercent);
         steeringPercent = limit100(steering);
     }
@@ -30,13 +31,13 @@ public class SimulationRobotMotion implements RobotMotion {
         logger.fine(String.format("sim moveTank( %s, powerLeft: %d, powerRight: %d, rotations: %d, brake: %b )",
                 tankControl.toString(), powerLeftPercent, powerRightPercent, rotations, brakeAtEnd));
 
-        powerLeftPercent = limit100(powerLeftPercent);
-        powerRightPercent = limit100(powerRightPercent);
+        this.powerLeftPercent = limit100(powerLeftPercent);
+        this.powerRightPercent = limit100(powerRightPercent);
 
-        speedPercent = (powerLeftPercent + powerRightPercent) / 2;
-        double steeringScale = Math.abs(powerLeftPercent) + Math.abs(powerRightPercent);
+        speedPercent = (this.powerLeftPercent + this.powerRightPercent) / 2;
+        double steeringScale = Math.abs(this.powerLeftPercent) + Math.abs(this.powerRightPercent);
         if (steeringScale > 0) {
-            steeringPercent = 100 * (powerRightPercent - powerLeftPercent) / steeringScale;
+            steeringPercent = 100 * (this.powerRightPercent - this.powerLeftPercent) / steeringScale;
         }
     }
 
@@ -51,6 +52,27 @@ public class SimulationRobotMotion implements RobotMotion {
 
     @Override
     public void tick() {
+
+        switch (motionType) {
+            case steering:
+                break;
+            default:
+                applyTankMotionTick();
+                break;
+        }
+    }
+
+    @Override
+    public boolean isDone() {
+        return false;
+    }
+
+    @Override
+    public RobotType getRobotType() {
+        return RobotType.simulation;
+    }
+
+    void applyTankMotionTick() {
         //  create local copy of the raw positions
         double theta = robotModel.getRotation();
         double x = robotModel.getX();
@@ -58,7 +80,19 @@ public class SimulationRobotMotion implements RobotMotion {
 
         //  update the positions
         double steering = steeringPercent / (100 * fullSteering);
-        theta += steering / samplesPerSecond;
+
+        double left = powerLeftPercent / 100;
+        double right = powerRightPercent / 100;
+        double deltaTheta = 0;
+        if (left == right) {
+
+        } else {
+            deltaTheta = Math.atan2(right, left);
+        }
+        theta += deltaTheta;
+
+        logger.fine(String.format("\tw: %f, h: %f %f", left, right, deltaTheta, theta));
+
         double speed = speedPercent / (100 * fullSpeed);
         double dx = speed * Math.cos(theta);
         double dy = speed * Math.sin(theta);
@@ -70,19 +104,6 @@ public class SimulationRobotMotion implements RobotMotion {
         //  output the new values
         robotModel.setLocation(x, y);
         robotModel.setRotation(theta);
-
-        logger.fine(String.format("sim: pos(%6.1f, %6.1f), theta: %7.2f",
-                robotModel.getX(), robotModel.getY(), robotModel.getRotation()));
-    }
-
-    @Override
-    public boolean isDone() {
-        return false;
-    }
-
-    @Override
-    public RobotType getRobotType() {
-        return RobotType.simulation;
     }
 
     /**
@@ -124,6 +145,22 @@ public class SimulationRobotMotion implements RobotMotion {
      */
     private static int samplesPerSecond = 60;
 
+    public MotionType getMotionType() {
+        return motionType;
+    }
+
+    public void setMotionType(MotionType motionType) {
+        this.motionType = motionType;
+    }
+
+    private enum MotionType {
+        tank,
+        steering;
+    }
+
+    private MotionType motionType = MotionType.tank;
+    private double powerLeftPercent;
+    private double powerRightPercent;
 
     //  note: if you copy this logger initialization, manually update the class name to your class
     private static final Logger logger = Logger.getLogger(SimulationRobotMotion.class.getName());

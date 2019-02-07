@@ -8,13 +8,23 @@ class RobotModel {
     /**
      * Initiate the simulation robot model with the given width and height.
      *
-     * @param width  width in pixels of the simulation image
-     * @param height height in pixels of the simulation image
+     * @param fieldWidthPixels  width in pixels of the simulation image
+     * @param fieldHeightPixels height in pixels of the simulation image
      */
-    RobotModel(double width, double height) {
-        maxWidth = width;
-        maxHeight = height;
+    RobotModel(double fieldWidthPixels, double fieldHeightPixels) {
+        fieldMaxWidth = fieldWidthPixels;
+        fieldMaxHeight = fieldHeightPixels;
+        scalePxPerCm = fieldWidthPixels / fieldWidthCm;
+
         reset();
+    }
+
+    public double getWidthCm() {
+        return widthCm;
+    }
+
+    public double getLenghtCm() {
+        return lenghtCm;
     }
 
     /**
@@ -24,8 +34,8 @@ class RobotModel {
      * @param y y coordinate
      */
     final void setLocation(double x, double y) {
-        this.x = Math.max(0, Math.min(x, getMaxWidth()));
-        this.y = Math.max(0, Math.min(y, getMaxHeight()));
+        this.x = Math.max(0, Math.min(x, getFieldMaxWidth()));
+        this.y = Math.max(0, Math.min(y, getFieldMaxHeight()));
     }
 
     /**
@@ -64,8 +74,8 @@ class RobotModel {
      *
      * @return width in pixels
      */
-    final double getMaxWidth() {
-        return maxWidth;
+    final double getFieldMaxWidth() {
+        return fieldMaxWidth;
     }
 
     /**
@@ -73,21 +83,40 @@ class RobotModel {
      *
      * @return height in pixels
      */
-    final double getMaxHeight() {
-        return maxHeight;
+    final double getFieldMaxHeight() {
+        return fieldMaxHeight;
     }
 
     /**
      * Reset the robot model to a know condition.
      */
     final void reset() {
-        setLocation(maxWidth / 2, maxHeight / 2);
+        setLocation(fieldMaxWidth / 2, fieldMaxHeight / 2);
         setRotation(-Math.PI / 4);
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s{ (%9.3f,%9.3f), "
+                        + thetaCharacter + ": %9.3f "
+                        + piCharacter + " = %9.1f" + degreeCharacter + "}",
+                getClass().getSimpleName(), x, y, rotation, Math.toDegrees(rotation));
+    }
+
+    private static final Character piCharacter = '\u03C0';
+    private static final Character degreeCharacter = '\u00B0';
+    private static final Character thetaCharacter = '\u03F4';
+
+    //private static final double scale = ;
+    private static final double cmPerInch = 2.54;
+    private final double widthCm = 18 * cmPerInch;
+    private final double lenghtCm = getWidthCm();
+    private final double fieldWidthCm = 12 * 12 * cmPerInch;
+    private final double fieldLenghtCm = fieldWidthCm;
+    private final double scalePxPerCm;
     private double x = 100;
     private double y = 100;
     private double rotation = 0; //  rotation in radians
-    private final double maxWidth;
-    private final double maxHeight;
+    private final double fieldMaxWidth;
+    private final double fieldMaxHeight;
 }
