@@ -18,8 +18,7 @@ import javafx.scene.transform.Rotate;
  * Note that this class is very dependent on the .fxml file associated with it.
  * Many of the changes in the .fxml file will require a modification here.
  */
-public class RobotSimulationJavaFxController
-{
+public class RobotSimulationJavaFxController {
 
     @FXML
     Canvas robotField;
@@ -28,16 +27,13 @@ public class RobotSimulationJavaFxController
     private Button restartButton;
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         robotModel = new RobotModel(robotField.getWidth(), robotField.getHeight());
         robotView = new RobotView(robotModel);
 
-        restartButton.setOnAction(new EventHandler<ActionEvent>()
-        {
+        restartButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent e)
-            {
+            public void handle(ActionEvent e) {
                 System.out.println("restart");
                 if (restartEventHandler != null)
                     restartEventHandler.onRestartEvent(new RestartEvent());
@@ -45,11 +41,9 @@ public class RobotSimulationJavaFxController
         });
 
         //  called the JavaFx framework when the display is being refreshed.
-        new AnimationTimer()
-        {
+        new AnimationTimer() {
             @Override
-            public void handle(long arg0)
-            {
+            public void handle(long arg0) {
                 GraphicsContext graphicsContext2D = robotField.getGraphicsContext2D();
 
                 //  playing field
@@ -60,63 +54,58 @@ public class RobotSimulationJavaFxController
                 graphicsContext2D.fillRect(0, 0, w, h);
 
                 graphicsContext2D.setFill(Color.RED);
-                graphicsContext2D.fillRect(w/2-125, h/2 - 125, 50, 50);
+                graphicsContext2D.fillRect(w / 2 - 125, h / 2 - 125, 50, 50);
                 graphicsContext2D.setFill(Color.BLUE);
-                graphicsContext2D.fillRect(w/2+125, h/2 - 125, 50, 50);
+                graphicsContext2D.fillRect(w / 2 + 125, h / 2 - 125, 50, 50);
 
                 robotView.render(graphicsContext2D);
             }
         }.start();
     }
 
-    private class RobotView
-    {
-        RobotView(RobotModel robotModel)
-        {
+    private class RobotView {
+        RobotView(RobotModel robotModel) {
             this.robotModel = robotModel;
         }
 
-        void render(GraphicsContext gc)
-        {
+        void render(GraphicsContext gc) {
             gc.save(); // saves the current state on stack, including the current transform
-            double h = gc.getCanvas().getHeight();  //  used to deal with upside down y axis
+            double canvasH = gc.getCanvas().getHeight();  //  used to deal with upside down y axis
 
-            //  translate center to origin
             //  rotate
-            Rotate r = new Rotate(radiansToDegrees(robotModel.getRotation()),
-                    robotModel.getX(), h - robotModel.getY());
-            gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-            //  translate center back to original
+            double rw = robotModel.getWidthCm() * pixelsPerCm;
+            double rh = robotModel.getHeightCm() * pixelsPerCm;
+            Rotate rot = new Rotate(radiansToDegrees(robotModel.getRotation()),
+                    robotModel.getX() + rw/2,
+                    canvasH - (robotModel.getY() + rh / 2));
+            gc.setTransform(rot.getMxx(), rot.getMyx(), rot.getMxy(), rot.getMyy(), rot.getTx(), rot.getTy());
+
 
             //  robotMotionSequencer
             gc.setFill(cardinal);
-            gc.fillRect(robotModel.getX(), h - robotModel.getY(), robotWidth, robotDepth);
+            gc.fillRect(robotModel.getX(), canvasH - robotModel.getY(), rw, rh);
             gc.setFill(green);
-            gc.fillRect(robotModel.getX(), h - robotModel.getY(), robotWidth, robotDepth / 5);
+            gc.fillRect(robotModel.getX(), canvasH - robotModel.getY(), rw / 5, rh);
 
             gc.restore(); // back to original state (before rotation)
         }
 
         private final RobotModel robotModel;
-        public static final double robotWidth = 60;
-        public static final double robotDepth = 90;
+        private static final double pixelsPerCm = 2;
     }
 
-    private double radiansToDegrees(double radians)
-    {
+    private double radiansToDegrees(double radians) {
         radians %= twoPi;
         if (radians < 0)
             radians += twoPi;
         return 360 * radians / twoPi;
     }
 
-    public RobotModel getRobotModel()
-    {
+    public RobotModel getRobotModel() {
         return robotModel;
     }
 
-    public void registerRestartEventHandler(RestartEventHandler restartEventHandler)
-    {
+    public void registerRestartEventHandler(RestartEventHandler restartEventHandler) {
         this.restartEventHandler = restartEventHandler;
     }
 

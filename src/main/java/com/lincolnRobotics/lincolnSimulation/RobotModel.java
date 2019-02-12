@@ -8,12 +8,12 @@ class RobotModel {
     /**
      * Initiate the simulation robot model with the given width and height.
      *
-     * @param width  width in pixels of the simulation image
-     * @param height height in pixels of the simulation image
+     * @param maxFieldWidth  width in pixels of the simulation field image
+     * @param maxFieldHeight height in pixels of the simulation field image
      */
-    RobotModel(double width, double height) {
-        maxWidth = width;
-        maxHeight = height;
+    RobotModel(double maxFieldWidth, double maxFieldHeight) {
+        this.maxFieldWidth = maxFieldWidth;
+        this.maxFieldHeight = maxFieldHeight;
         reset();
     }
 
@@ -23,9 +23,9 @@ class RobotModel {
      * @param x x coordinate
      * @param y y coordinate
      */
-    final void setLocation(double x, double y) {
-        this.x = Math.max(0, Math.min(x, getMaxWidth()));
-        this.y = Math.max(0, Math.min(y, getMaxHeight()));
+    final void setDisplayLocation(double x, double y) {
+        this.x = Math.max(0, Math.min(x, getMaxFieldWidth()));
+        this.y = Math.max(0, Math.min(y, getMaxFieldHeight()));
     }
 
     /**
@@ -64,8 +64,8 @@ class RobotModel {
      *
      * @return width in pixels
      */
-    final double getMaxWidth() {
-        return maxWidth;
+    final double getMaxFieldWidth() {
+        return maxFieldWidth;
     }
 
     /**
@@ -73,21 +73,40 @@ class RobotModel {
      *
      * @return height in pixels
      */
-    final double getMaxHeight() {
-        return maxHeight;
+    final double getMaxFieldHeight() {
+        return maxFieldHeight;
     }
 
     /**
      * Reset the robot model to a know condition.
      */
     final void reset() {
-        setLocation(maxWidth / 2, maxHeight / 2);
+        setDisplayLocation(maxFieldWidth / 2, maxFieldHeight / 2);
         setRotation(-Math.PI / 4);
+    }
+
+
+    public double getWidthCm() {
+        return widthCm;
+    }
+
+    public void setWidthCm(double widthCm) {
+        this.widthCm = widthCm;
+    }
+
+    public double getHeightCm() {
+        return heightCm;
+    }
+
+    public void setHeightCm(double heightCm) {
+        this.heightCm = heightCm;
     }
 
     private double x = 100;
     private double y = 100;
+    private double widthCm = 45;
+    private double heightCm = 45;
     private double rotation = 0; //  rotation in radians
-    private final double maxWidth;
-    private final double maxHeight;
+    private final double maxFieldWidth;
+    private final double maxFieldHeight;
 }

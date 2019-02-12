@@ -37,6 +37,8 @@ public class SimulationRobotMotion implements RobotMotion {
         double steeringScale = Math.abs(powerLeftPercent) + Math.abs(powerRightPercent);
         if (steeringScale > 0) {
             steeringPercent = 100 * (powerRightPercent - powerLeftPercent) / steeringScale;
+        } else {
+            steeringPercent = 0;
         }
     }
 
@@ -57,9 +59,10 @@ public class SimulationRobotMotion implements RobotMotion {
         double y = robotModel.getY();
 
         //  update the positions
-        double steering = steeringPercent / (100 * fullSteering);
-        theta += steering / samplesPerSecond;
-        double speed = speedPercent / (100 * fullSpeed);
+        double steering = fullSteering * steeringPercent / 100;
+        double dTheta = steering / samplesPerSecond;
+        theta += dTheta;
+        double speed = fullSpeed * speedPercent / 100;
         double dx = speed * Math.cos(theta);
         double dy = speed * Math.sin(theta);
 
@@ -68,7 +71,7 @@ public class SimulationRobotMotion implements RobotMotion {
         y += dy;
 
         //  output the new values
-        robotModel.setLocation(x, y);
+        robotModel.setDisplayLocation(x, y);
         robotModel.setRotation(theta);
 
         logger.fine(String.format("sim: pos(%6.1f, %6.1f), theta: %7.2f",
@@ -110,11 +113,11 @@ public class SimulationRobotMotion implements RobotMotion {
     /**
      * maximum speedPercent allowed in pixels per tick
      */
-    private static double fullSpeed = 3;
+    private static double fullSpeed = 0.3;
     /**
      * maximum speedPercent allowed in pixels per tick
      */
-    private static double fullSteering = 0.1 * Math.PI;
+    private static double fullSteering = 0.25 * Math.PI;
     /**
      * robot wheel diameter
      */
