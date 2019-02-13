@@ -88,8 +88,8 @@ public class SimulationRobotMotion implements RobotMotion {
             double dTheta = steering / samplesPerSecond;
 
             theta += dTheta;
-            double dx = speed * Math.cos(theta);
-            double dy = speed * Math.sin(theta);
+            double dx = speed * Math.sin(theta);
+            double dy = -speed * Math.cos(theta);
 
             //  update the local positions
             x += dx;
