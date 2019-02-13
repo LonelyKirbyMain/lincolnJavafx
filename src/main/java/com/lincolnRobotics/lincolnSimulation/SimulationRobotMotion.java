@@ -23,6 +23,7 @@ public class SimulationRobotMotion implements RobotMotion {
                 steeringControl.toString(), powerPercent, rotations, brakeAtEnd));
         speedPercent = limit100(powerPercent);
         steeringPercent = limit100(steering);
+        setMotionType(MotionType.steering);
     }
 
     @Override
@@ -42,6 +43,7 @@ public class SimulationRobotMotion implements RobotMotion {
         } else {
             steeringPercent = 0;
         }
+        setMotionType(MotionType.tank);
     }
 
     @Override
@@ -168,12 +170,12 @@ public class SimulationRobotMotion implements RobotMotion {
         return motionType;
     }
 
-    public void setMotionType(MotionType motionType) {
+    private void setMotionType(MotionType motionType) {
         this.motionType = motionType;
     }
 
 
-    private enum MotionType {
+    public enum MotionType {
         tank,
         steering;
     }
@@ -181,9 +183,6 @@ public class SimulationRobotMotion implements RobotMotion {
 
     private final double loopHertz;
     private MotionType motionType = MotionType.tank;
-    private double powerLeftPercent;
-    private double powerRightPercent;
-
 
     //  note: if you copy this logger initialization, manually update the class name to your class
     private static final Logger logger = Logger.getLogger(SimulationRobotMotion.class.getName());
