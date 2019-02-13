@@ -8,24 +8,13 @@ class RobotModel {
     /**
      * Initiate the simulation robot model with the given width and height.
      *
-     * @param fieldWidthPixels  width in pixels of the simulation image
-     * @param fieldHeightPixels height in pixels of the simulation image
+     * @param maxFieldWidth  width in pixels of the simulation field image
+     * @param maxFieldHeight height in pixels of the simulation field image
      */
-    RobotModel(double fieldWidthPixels, double fieldHeightPixels) {
-
-        fieldMaxWidth = fieldWidthPixels;
-        fieldMaxHeight = fieldHeightPixels;
-        scalePxPerCm = fieldWidthPixels / fieldWidthCm;
-
+    RobotModel(double maxFieldWidth, double maxFieldHeight) {
+        this.maxFieldWidth = maxFieldWidth;
+        this.maxFieldHeight = maxFieldHeight;
         reset();
-    }
-
-    public double getWidthCm() {
-        return widthCm;
-    }
-
-    public double getLenghtCm() {
-        return lenghtCm;
     }
 
     /**
@@ -34,9 +23,9 @@ class RobotModel {
      * @param x x coordinate
      * @param y y coordinate
      */
-    final void setLocation(double x, double y) {
-        this.x = Math.max(0, Math.min(x, getFieldMaxWidth()));
-        this.y = Math.max(0, Math.min(y, getFieldMaxHeight()));
+    final void setDisplayLocation(double x, double y) {
+        this.x = Math.max(0, Math.min(x, getMaxFieldWidth()));
+        this.y = Math.max(0, Math.min(y, getMaxFieldHeight()));
     }
 
     /**
@@ -75,8 +64,8 @@ class RobotModel {
      *
      * @return width in pixels
      */
-    final double getFieldMaxWidth() {
-        return fieldMaxWidth;
+    final double getMaxFieldWidth() {
+        return maxFieldWidth;
     }
 
     /**
@@ -84,16 +73,32 @@ class RobotModel {
      *
      * @return height in pixels
      */
-    final double getFieldMaxHeight() {
-        return fieldMaxHeight;
+    final double getMaxFieldHeight() {
+        return maxFieldHeight;
     }
 
     /**
      * Reset the robot model to a know condition.
      */
     final void reset() {
-        setLocation(fieldMaxWidth / 2, fieldMaxHeight / 2);
+        setDisplayLocation(maxFieldWidth / 2, maxFieldHeight / 2);
         setRotation(-Math.PI / 4);
+    }
+
+    public double getWidthCm() {
+        return widthCm;
+    }
+
+    public void setWidthCm(double widthCm) {
+        this.widthCm = widthCm;
+    }
+
+    public double getHeightCm() {
+        return lengthCm;
+    }
+
+    public void setLengthCm(double lengthCm) {
+        this.lengthCm = lengthCm;
     }
 
     @Override
@@ -109,14 +114,11 @@ class RobotModel {
     private static final Character thetaCharacter = '\u03F4';
 
     private static final double cmPerInch = 2.54;
-    private final double widthCm = 18 * cmPerInch;
-    private final double lenghtCm = getWidthCm();
-    private final double fieldWidthCm = 12 * 12 * cmPerInch;
-    private final double fieldLenghtCm = fieldWidthCm;
-    private final double scalePxPerCm;
+    private double widthCm = 18 * cmPerInch;
+    private double lengthCm = widthCm;
     private double x = 100;
     private double y = 100;
     private double rotation = 0; //  rotation in radians
-    private final double fieldMaxWidth;
-    private final double fieldMaxHeight;
+    private final double maxFieldWidth;
+    private final double maxFieldHeight;
 }

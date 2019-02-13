@@ -19,9 +19,8 @@ public class SimulationRobotMotion implements RobotMotion {
     @Override
     public void moveSteering(MotionControl steeringControl, int steering, int powerPercent, int rotations, boolean brakeAtEnd)
             throws TerminationException {
-        logger.fine(String.format("sim moveTank( %s, steering: %d, speedPercent: %d, rotations: %d, brake: %b )",
-                steeringControl.toString(), steering, powerPercent, rotations, brakeAtEnd));
-
+        logger.fine(String.format("sim moveTank( %s, steering: speedPercent: %d, rotations: %d, brake: %b )",
+                steeringControl.toString(), powerPercent, rotations, brakeAtEnd));
         speedPercent = limit100(powerPercent);
         steeringPercent = limit100(steering);
     }
@@ -32,13 +31,16 @@ public class SimulationRobotMotion implements RobotMotion {
         logger.fine(String.format("sim moveTank( %s, powerLeft: %d, powerRight: %d, rotations: %d, brake: %b )",
                 tankControl.toString(), powerLeftPercent, powerRightPercent, rotations, brakeAtEnd));
 
-        this.powerLeftPercent = limit100(powerLeftPercent);
-        this.powerRightPercent = limit100(powerRightPercent);
+        powerLeftPercent = limit100(powerLeftPercent);
+        powerRightPercent = limit100(powerRightPercent);
+        wheelRotations = rotations;
 
-        speedPercent = (this.powerLeftPercent + this.powerRightPercent) / 2;
-        double steeringScale = Math.abs(this.powerLeftPercent) + Math.abs(this.powerRightPercent);
+        speedPercent = (powerLeftPercent + powerRightPercent) / 2;
+        double steeringScale = Math.abs(powerLeftPercent) + Math.abs(powerRightPercent);
         if (steeringScale > 0) {
-            steeringPercent = 100 * (this.powerRightPercent - this.powerLeftPercent) / steeringScale;
+            steeringPercent = 100 * (powerRightPercent - powerLeftPercent) / steeringScale;
+        } else {
+            steeringPercent = 0;
         }
     }
 
@@ -63,48 +65,52 @@ public class SimulationRobotMotion implements RobotMotion {
         }
     }
 
+    void applyTankMotionTick() {
+
+        double speed = fullSpeed * speedPercent / 100;
+        double dRot = Math.abs(speed / wheelDiameter);
+        wheelRotations -= dRot;
+
+        if (wheelRotations <= 0) {
+            //  no more motions authorized
+            wheelRotations = 0;
+            speedPercent = 0;
+        } else {
+            //  create local copy of the raw positions
+            double theta = robotModel.getRotation();
+            double x = robotModel.getX();
+            double y = robotModel.getY();
+
+            //  update the positions
+            double steering = fullSteering * steeringPercent / 100;
+            double dTheta = steering / samplesPerSecond;
+
+            theta += dTheta;
+            double dx = speed * Math.cos(theta);
+            double dy = speed * Math.sin(theta);
+
+            //  update the local positions
+            x += dx;
+            y += dy;
+
+            //  output the new values
+            robotModel.setDisplayLocation(x, y);
+            robotModel.setRotation(theta);
+        }
+
+
+        logger.fine(String.format("sim: pos(%6.1f, %6.1f), theta: %7.2f",
+                robotModel.getX(), robotModel.getY(), robotModel.getRotation()));
+    }
+
     @Override
     public boolean isDone() {
-        return false;
+        return speedPercent == 0 && wheelRotations == 0;
     }
 
     @Override
     public RobotType getRobotType() {
         return RobotType.simulation;
-    }
-
-    void applyTankMotionTick() {
-        //  create local copy of the raw positions
-        double theta = robotModel.getRotation();
-        double x = robotModel.getX();
-        double y = robotModel.getY();
-
-        //  update the positions
-        double steering = steeringPercent / (100 * fullSteering);
-
-        double left = powerLeftPercent / 100;
-        double right = powerRightPercent / 100;
-        double deltaTheta = 0;
-        if (left == right) {
-
-        } else {
-            deltaTheta = Math.atan2(right, left);
-        }
-        theta += deltaTheta;
-
-        logger.fine(String.format("\tw: %f, h: %f %f", left, right, deltaTheta, theta));
-
-        double speed = speedPercent / (100 * fullSpeed);
-        double dx = speed * Math.cos(theta);
-        double dy = speed * Math.sin(theta);
-
-        //  update the local positions
-        x += dx;
-        y += dy;
-
-        //  output the new values
-        robotModel.setLocation(x, y);
-        robotModel.setRotation(theta);
     }
 
     /**
@@ -137,18 +143,26 @@ public class SimulationRobotMotion implements RobotMotion {
      */
     private double steeringPercent;
     /**
-     * maximum speedPercent allowed in pixels per tick
+     * rotations of the "wheel"
      */
-    private static double fullSpeed = 3;
+    private double wheelRotations;
     /**
      * maximum speedPercent allowed in pixels per tick
      */
-    private static double fullSteering = 0.1 * Math.PI;
+    private static double fullSpeed = 0.3;
+    /**
+     * maximum speedPercent allowed in pixels per tick
+     */
+    private static double fullSteering = 0.25 * Math.PI;
     /**
      * robot wheel diameter
      */
     private static double wheelDiameter = 3;
 
+    /**
+     * Samples per second of the main loop
+     */
+    private static int samplesPerSecond = 60;
 
     public MotionType getMotionType() {
         return motionType;
