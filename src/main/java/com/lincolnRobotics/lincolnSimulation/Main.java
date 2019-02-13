@@ -22,6 +22,28 @@ public class Main extends Application {
      * <p>
      * JavaFx is a Java user interface (UI) framework.
      * </p>
+     * in intellij idea:
+     *
+     * for simulation running:
+     *  configuration pulldown: Edit Configurations...
+     *  click + sign in upper left corner
+     * 	    select Maven
+     * 	    change name to something like: sim
+     * 	    Parameters tab:
+     *		    Command Line: compile javadoc:javadoc exec:java
+     * 	    Runner tab:
+     * 		    VM Options: -Djava.util.logging.config.file=logging.properties
+     *      click OK in the lower right corner
+     *
+     * for JUnit tests:
+     *  configuration pulldown: Edit Configurations...
+     *  click + sign in upper left corner
+     *  	select JUnit
+     * 	    change name to something like: test all
+     * 	    Configuration tab:
+     * 		    test kind pulldown: All in package
+     * 		    Search for tests: In whole project
+     * 		click OK in the lower right corner
      *
      * @param primaryStage the primary JavaFx stage for this application
      * @throws Exception any java exception thrown by the application

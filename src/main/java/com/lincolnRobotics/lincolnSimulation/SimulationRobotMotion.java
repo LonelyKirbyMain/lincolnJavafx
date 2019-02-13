@@ -32,6 +32,7 @@ public class SimulationRobotMotion implements RobotMotion {
 
         powerLeftPercent = limit100(powerLeftPercent);
         powerRightPercent = limit100(powerRightPercent);
+        wheelRotations = rotations;
 
         speedPercent = (powerLeftPercent + powerRightPercent) / 2;
         double steeringScale = Math.abs(powerLeftPercent) + Math.abs(powerRightPercent);
@@ -53,26 +54,38 @@ public class SimulationRobotMotion implements RobotMotion {
 
     @Override
     public void tick() {
-        //  create local copy of the raw positions
-        double theta = robotModel.getRotation();
-        double x = robotModel.getX();
-        double y = robotModel.getY();
 
-        //  update the positions
-        double steering = fullSteering * steeringPercent / 100;
-        double dTheta = steering / samplesPerSecond;
-        theta += dTheta;
         double speed = fullSpeed * speedPercent / 100;
-        double dx = speed * Math.cos(theta);
-        double dy = speed * Math.sin(theta);
+        double dRot = Math.abs(speed / wheelDiameter);
+        wheelRotations -= dRot;
+        
+        if (wheelRotations <= 0) {
+            //  no more motions authorized
+            wheelRotations = 0;
+            speedPercent = 0;
+        } else {
+            //  create local copy of the raw positions
+            double theta = robotModel.getRotation();
+            double x = robotModel.getX();
+            double y = robotModel.getY();
 
-        //  update the local positions
-        x += dx;
-        y += dy;
+            //  update the positions
+            double steering = fullSteering * steeringPercent / 100;
+            double dTheta = steering / samplesPerSecond;
 
-        //  output the new values
-        robotModel.setDisplayLocation(x, y);
-        robotModel.setRotation(theta);
+            theta += dTheta;
+            double dx = speed * Math.cos(theta);
+            double dy = speed * Math.sin(theta);
+
+            //  update the local positions
+            x += dx;
+            y += dy;
+
+            //  output the new values
+            robotModel.setDisplayLocation(x, y);
+            robotModel.setRotation(theta);
+        }
+
 
         logger.fine(String.format("sim: pos(%6.1f, %6.1f), theta: %7.2f",
                 robotModel.getX(), robotModel.getY(), robotModel.getRotation()));
@@ -80,7 +93,7 @@ public class SimulationRobotMotion implements RobotMotion {
 
     @Override
     public boolean isDone() {
-        return false;
+        return speedPercent == 0 && wheelRotations == 0;
     }
 
     @Override
@@ -111,6 +124,10 @@ public class SimulationRobotMotion implements RobotMotion {
      */
     private double steeringPercent;
     /**
+     * rotations of the "wheel"
+     */
+    private double wheelRotations;
+    /**
      * maximum speedPercent allowed in pixels per tick
      */
     private static double fullSpeed = 0.3;
@@ -122,6 +139,7 @@ public class SimulationRobotMotion implements RobotMotion {
      * robot wheel diameter
      */
     private static double wheelDiameter = 3;
+
     /**
      * Samples per second of the main loop
      */
