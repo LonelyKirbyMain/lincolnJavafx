@@ -93,7 +93,7 @@ class RobotModel {
         this.widthCm = widthCm;
     }
 
-    public double getHeightCm() {
+    public double getLengthCm() {
         return lengthCm;
     }
 

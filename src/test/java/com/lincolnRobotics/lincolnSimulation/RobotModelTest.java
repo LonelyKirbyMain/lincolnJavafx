@@ -2,7 +2,8 @@ package com.lincolnRobotics.lincolnSimulation;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Sample JUnit test for the simulation's RobotModel
@@ -69,15 +70,15 @@ public class RobotModelTest {
     @Test
     public void getHeightCm() {
         RobotModel robotModel = new RobotModel(100, 100);
-        assertTrue(robotModel.getHeightCm() > 0);
+        assertTrue(robotModel.getLengthCm() > 0);
     }
 
     @Test
     public void setHeightCm() {
         RobotModel robotModel = new RobotModel(100, 100);
-        robotModel.setHeightCm(45);
-        assertEquals(45, robotModel.getHeightCm(), 1e-6);
-        robotModel.setHeightCm(25);
-        assertEquals(25, robotModel.getHeightCm(), 1e-6);
+        robotModel.setLengthCm(45);
+        assertEquals(45, robotModel.getLengthCm(), 1e-6);
+        robotModel.setLengthCm(25);
+        assertEquals(25, robotModel.getLengthCm(), 1e-6);
     }
 }
