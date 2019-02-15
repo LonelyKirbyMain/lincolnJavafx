@@ -181,7 +181,7 @@ public class HelloWorld {
 
 		*/
 
-        //  modify the class title
+        //  modify the class member variable title
         title = myLocalTitle + " Example";
         //  the class level variable will be remembered past the end of this lesson (method)
         System.out.println(title);

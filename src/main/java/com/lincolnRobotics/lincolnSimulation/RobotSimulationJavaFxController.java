@@ -77,7 +77,7 @@ public class RobotSimulationJavaFxController {
             double rh = robotModel.getLengthCm() * pixelsPerCm;
             Rotate rot = new Rotate(radiansToDegrees(robotModel.getRotation()),
                     robotModel.getX() + rw/2,
-                    canvasH - (robotModel.getY() + rh / 2));
+                    canvasH - (robotModel.getY() - rh / 2));
             gc.setTransform(rot.getMxx(), rot.getMyx(), rot.getMxy(), rot.getMyy(), rot.getTx(), rot.getTy());
 
 
