@@ -5,6 +5,7 @@ import com.lincolnRobotics.robotControl.RestartEvent;
 import com.lincolnRobotics.robotControl.RestartEventHandler;
 import com.lincolnRobotics.robotControl.RobotMotionSequencer;
 import javafx.animation.AnimationTimer;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,6 +48,10 @@ public class RobotSimulationJavaFxController {
             }
         });
 
+        sequencerSelection.setOnAction((e) -> {
+            System.out.println("selected:  "+sequencerSelection.getSelectionModel().getSelectedItem());
+        });
+
         //  called the JavaFx framework when the display is being refreshed.
         new AnimationTimer() {
             @Override
@@ -71,8 +76,13 @@ public class RobotSimulationJavaFxController {
     }
 
     public void setRobotAutonomousClasses(ArrayList<Class<? extends RobotMotionSequencer>> RobotMotionSequencerClasses) {
-        for (Class klass : RobotMotionSequencerClasses)
-            System.out.println(klass.getName());
+
+        sequencerSelection.getItems().clear();
+        ObservableList<String> list = sequencerSelection.getItems();
+        for (Class klass : RobotMotionSequencerClasses) {
+            System.out.println(klass.getSimpleName());
+            list.add(klass.getSimpleName());
+        }
     }
 
     private class RobotView {

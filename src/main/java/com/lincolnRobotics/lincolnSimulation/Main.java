@@ -152,6 +152,7 @@ public class Main extends Application {
 
     /**
      * Find file in package.
+     * <p>Lincoln students note:  This is very advanced stuff.  Read it only for the amusment value.</p>
      *
      * @param directory
      * @param packageName
