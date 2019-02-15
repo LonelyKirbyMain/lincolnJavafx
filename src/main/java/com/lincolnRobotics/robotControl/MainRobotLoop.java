@@ -85,8 +85,7 @@ public class MainRobotLoop implements Runnable,
      */
     @Override
     public void onRestartEvent(RestartEvent event) {
-        robotMotionSequencer.stop();
-        stop();
+        robotMotionSequencer.restart();
     }
 
     /**

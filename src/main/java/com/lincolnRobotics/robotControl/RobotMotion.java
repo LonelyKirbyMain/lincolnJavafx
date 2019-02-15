@@ -123,4 +123,9 @@ public interface RobotMotion {
      */
     public void tick();
 
+    /**
+     * Restart the robot motion command.   If simulated, robot can be reset to it's start position.
+     */
+    public void restart();
+
 }

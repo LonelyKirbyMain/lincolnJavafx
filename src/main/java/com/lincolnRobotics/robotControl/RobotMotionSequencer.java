@@ -27,6 +27,11 @@ public interface RobotMotionSequencer {
     public void stop();
 
     /**
+     * Restart the sequencer from the beginning.  In simulations, the robot position and velocity should be reset.
+     */
+    public void restart();
+
+    /**
      * Supply the robot motion under the sequencer's control.
      * @return the robot motion under the sequencer's control
      */

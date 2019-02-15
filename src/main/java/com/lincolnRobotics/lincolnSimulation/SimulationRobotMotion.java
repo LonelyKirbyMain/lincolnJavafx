@@ -67,6 +67,11 @@ public class SimulationRobotMotion implements RobotMotion {
         }
     }
 
+    @Override
+    public void restart() {
+        robotModel.reset();     //  only works in simulation
+    }
+
     void applyTankMotionTick() {
 
         double speed = fullSpeed * speedPercent / 100;

@@ -3,6 +3,7 @@ package com.lincolnRobotics.lincolnSimulation;
 
 import com.lincolnRobotics.robotControl.RestartEvent;
 import com.lincolnRobotics.robotControl.RestartEventHandler;
+import com.lincolnRobotics.robotControl.RobotMotionSequencer;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,8 +11,11 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
+
+import java.util.ArrayList;
 
 /**
  * The JavaFx controller for the use interface (UI).
@@ -25,6 +29,9 @@ public class RobotSimulationJavaFxController {
 
     @FXML
     private Button restartButton;
+
+    @FXML
+    ComboBox sequencerSelection;
 
     @FXML
     private void initialize() {
@@ -63,6 +70,11 @@ public class RobotSimulationJavaFxController {
         }.start();
     }
 
+    public void setRobotAutonomousClasses(ArrayList<Class<? extends RobotMotionSequencer>> RobotMotionSequencerClasses) {
+        for (Class klass : RobotMotionSequencerClasses)
+            System.out.println(klass.getName());
+    }
+
     private class RobotView {
         RobotView(RobotModel robotModel) {
             this.robotModel = robotModel;
@@ -76,7 +88,7 @@ public class RobotSimulationJavaFxController {
             double rw = robotModel.getWidthCm() * pixelsPerCm;
             double rh = robotModel.getLengthCm() * pixelsPerCm;
             Rotate rot = new Rotate(radiansToDegrees(robotModel.getRotation()),
-                    robotModel.getX() + rw/2,
+                    robotModel.getX() + rw / 2,
                     canvasH - (robotModel.getY() - rh / 2));
             gc.setTransform(rot.getMxx(), rot.getMyx(), rot.getMxy(), rot.getMyy(), rot.getTx(), rot.getTy());
 
