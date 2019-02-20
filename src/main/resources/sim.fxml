@@ -2,6 +2,7 @@
 
 <!--  leave this file alone unless you really know what you are doing!  -->
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -11,9 +12,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="com.lincolnRobotics.lincolnSimulation.RobotSimulationJavaFxController">
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lincolnRobotics.lincolnSimulation.RobotSimulationJavaFxController">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -21,17 +21,19 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-       <BorderPane prefHeight="700.0" prefWidth="600.0">
+       <BorderPane minHeight="700.0" minWidth="600.0">
          <center>
-             <Canvas fx:id="robotField" height="600.0" width="600.0" BorderPane.alignment="CENTER"/>
+             <Canvas fx:id="robotField" height="600.0" width="600.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </BorderPane.margin></Canvas>
          </center>
          <top>
-            <Pane prefHeight="33.0" prefWidth="864.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="33.0" BorderPane.alignment="CENTER">
                <children>
-                   <Label layoutX="33.0" layoutY="3.0" style="-fx-font-size: 20;" text="Lincoln Robot Simulation"/>
-                   <Button fx:id="restartButton" layoutX="303.0" layoutY="3.0" mnemonicParsing="false" text="Restart"/>
-                   <ComboBox fx:id="sequencerSelection" layoutX="371.0" layoutY="3.0" prefHeight="27.0"
-                             prefWidth="224.0" promptText="Sequencer Selection"/>
+                   <Label layoutX="33.0" layoutY="3.0" style="-fx-font-size: 20;" text="Lincoln Robot Simulation" />
+                   <Button fx:id="restartButton" layoutX="303.0" layoutY="3.0" mnemonicParsing="false" text="Restart" />
+                   <ComboBox fx:id="sequencerSelection" layoutX="371.0" layoutY="3.0" prefHeight="27.0" prefWidth="224.0" promptText="Sequencer Selection" />
                </children>
             </Pane>
          </top>

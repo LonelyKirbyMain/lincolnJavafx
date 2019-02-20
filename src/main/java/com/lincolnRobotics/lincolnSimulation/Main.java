@@ -66,7 +66,7 @@ public class Main extends Application {
         loader.setLocation(getClass().getResource("/sim.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Lincoln Robot Simulation");
-        primaryStage.setScene(new Scene(root, 600, 670));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
         //  connect the autonomous controller to the simulation sequencer
