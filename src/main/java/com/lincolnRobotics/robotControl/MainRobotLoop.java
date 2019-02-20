@@ -19,7 +19,7 @@ public class MainRobotLoop implements Runnable,
      * @param robotMotionSequencer the command sequencer to be run by this loop
      */
     public MainRobotLoop(RobotMotionSequencer robotMotionSequencer) {
-        this.robotMotionSequencer = robotMotionSequencer;
+        this.setRobotMotionSequencer(robotMotionSequencer);
     }
 
     /**
@@ -39,7 +39,7 @@ public class MainRobotLoop implements Runnable,
         waitForStart();
 
         //  initialize the robot command sequencer
-        robotMotionSequencer.initialize();
+        getRobotMotionSequencer().initialize();
 
         //  main loop
         while (isActive()) {
@@ -47,10 +47,10 @@ public class MainRobotLoop implements Runnable,
             delay();
 
             //  run the simulation model if the robot is a simulation
-            robotMotionSequencer.getRobotMotion().tick();
+            getRobotMotionSequencer().getRobotMotion().tick();
 
             //  get the sequencer to issue new commands when appropriate
-            robotMotionSequencer.tick();
+            getRobotMotionSequencer().tick();
 
             //  let the environment process if it needs to
             loopTick();
@@ -85,7 +85,7 @@ public class MainRobotLoop implements Runnable,
      */
     @Override
     public void onRestartEvent(RestartEvent event) {
-        robotMotionSequencer.restart();
+        getRobotMotionSequencer().restart();
     }
 
     /**
@@ -131,7 +131,19 @@ public class MainRobotLoop implements Runnable,
         this.sampleHertz = sampleHertz;
     }
 
-    protected RobotMotionSequencer robotMotionSequencer;
+
+    public RobotMotionSequencer getRobotMotionSequencer() {
+        return robotMotionSequencer;
+    }
+
+    public void setRobotMotionSequencer(RobotMotionSequencer robotMotionSequencer) {
+        if (getRobotMotionSequencer() != null)
+            getRobotMotionSequencer().stop();
+        this.robotMotionSequencer = robotMotionSequencer;
+        getRobotMotionSequencer().initialize();
+    }
+
+    private RobotMotionSequencer robotMotionSequencer;
     private boolean isActive = true;
     private int sampleHertz = 60;
 

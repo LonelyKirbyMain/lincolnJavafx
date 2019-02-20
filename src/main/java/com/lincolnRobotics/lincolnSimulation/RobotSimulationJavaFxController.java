@@ -1,8 +1,9 @@
 package com.lincolnRobotics.lincolnSimulation;
 
 
-import com.lincolnRobotics.robotControl.RestartEvent;
-import com.lincolnRobotics.robotControl.RestartEventHandler;
+import com.lincolnRobotics.robotAutonomous.SampleRobotMotionSequencer;
+import com.lincolnRobotics.robotControl.MainRobotLoop;
+import com.lincolnRobotics.robotControl.RobotMotion;
 import com.lincolnRobotics.robotControl.RobotMotionSequencer;
 import javafx.animation.AnimationTimer;
 import javafx.collections.ObservableList;
@@ -17,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The JavaFx controller for the use interface (UI).
@@ -38,18 +40,27 @@ public class RobotSimulationJavaFxController {
     private void initialize() {
         robotModel = new RobotModel(robotField.getWidth(), robotField.getHeight());
         robotView = new RobotView(robotModel);
+        robotMotion = new SimulationRobotMotion(60, robotModel);
 
         restartButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 System.out.println("restart");
-                if (restartEventHandler != null)
-                    restartEventHandler.onRestartEvent(new RestartEvent());
+                robotMotionSequencer.restart();
             }
         });
 
         sequencerSelection.setOnAction((e) -> {
-            System.out.println("selected:  "+sequencerSelection.getSelectionModel().getSelectedItem());
+            robotMotionSequencer.stop();
+            try {
+                robotMotionSequencer = classHashMap.get(sequencerSelection.getSelectionModel().getSelectedItem()).newInstance();
+                robotMotionSequencer.setRobotMotion(robotMotion);
+            } catch (InstantiationException e1) {
+                e1.printStackTrace();
+            } catch (IllegalAccessException e1) {
+                e1.printStackTrace();
+            }
+
         });
 
         //  called the JavaFx framework when the display is being refreshed.
@@ -73,14 +84,21 @@ public class RobotSimulationJavaFxController {
                 robotView.render(graphicsContext2D);
             }
         }.start();
+
+        //  run the main robotMotionSequencer loop
+        robotMotionSequencer = new SampleRobotMotionSequencer();
+        robotMotionSequencer.setRobotMotion(robotMotion);
+        simulationMainRobotLoop = new MainRobotLoop(robotMotionSequencer);
+        simulationMainRobotLoop.start();
     }
 
     public void setRobotAutonomousClasses(ArrayList<Class<? extends RobotMotionSequencer>> RobotMotionSequencerClasses) {
 
+        classHashMap.clear();
         sequencerSelection.getItems().clear();
         ObservableList<String> list = sequencerSelection.getItems();
         for (Class klass : RobotMotionSequencerClasses) {
-            System.out.println(klass.getSimpleName());
+            classHashMap.put(klass.getSimpleName(), klass);
             list.add(klass.getSimpleName());
         }
     }
@@ -127,14 +145,14 @@ public class RobotSimulationJavaFxController {
         return robotModel;
     }
 
-    public void registerRestartEventHandler(RestartEventHandler restartEventHandler) {
-        this.restartEventHandler = restartEventHandler;
-    }
 
     private RobotModel robotModel;
     private RobotView robotView;
+    private RobotMotion robotMotion;
+    private RobotMotionSequencer robotMotionSequencer;
+    private MainRobotLoop simulationMainRobotLoop;
+    private HashMap<String, Class<? extends RobotMotionSequencer>> classHashMap = new HashMap<>();
     private static final Color cardinal = Color.web("be392a");
     private static final Color green = Color.web("00b000");
-    private RestartEventHandler restartEventHandler;
     private static final double twoPi = 2 * Math.PI;
 }

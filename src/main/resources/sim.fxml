@@ -21,17 +21,17 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <BorderPane prefHeight="898.0" prefWidth="864.0">
+       <BorderPane prefHeight="700.0" prefWidth="600.0">
          <center>
-            <Canvas fx:id="robotField" height="800.0" width="800.0" BorderPane.alignment="CENTER" />
+             <Canvas fx:id="robotField" height="600.0" width="600.0" BorderPane.alignment="CENTER"/>
          </center>
          <top>
             <Pane prefHeight="33.0" prefWidth="864.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="33.0" layoutY="3.0" style="-fx-font-size: 20;" text="Lincoln Robot Simulation"/>
-                  <Button fx:id="restartButton" layoutX="400.0" layoutY="3.0" mnemonicParsing="false" text="Restart"/>
-                  <ComboBox fx:id="sequencerSelection" layoutX="550.0" layoutY="3.0" prefHeight="27.0" prefWidth="300.0"
-                            promptText="Sequencer Selection"/>
+                   <Label layoutX="33.0" layoutY="3.0" style="-fx-font-size: 20;" text="Lincoln Robot Simulation"/>
+                   <Button fx:id="restartButton" layoutX="303.0" layoutY="3.0" mnemonicParsing="false" text="Restart"/>
+                   <ComboBox fx:id="sequencerSelection" layoutX="371.0" layoutY="3.0" prefHeight="27.0"
+                             prefWidth="224.0" promptText="Sequencer Selection"/>
                </children>
             </Pane>
          </top>

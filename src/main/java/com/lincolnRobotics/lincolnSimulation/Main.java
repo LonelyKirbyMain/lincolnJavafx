@@ -1,9 +1,6 @@
 package com.lincolnRobotics.lincolnSimulation;
 
 
-import com.lincolnRobotics.robotAutonomous.SampleRobotMotionSequencer;
-import com.lincolnRobotics.robotControl.MainRobotLoop;
-import com.lincolnRobotics.robotControl.RobotMotion;
 import com.lincolnRobotics.robotControl.RobotMotionSequencer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -67,24 +64,13 @@ public class Main extends Application {
         loader.setLocation(getClass().getResource("/sim.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Lincoln Robot Simulation");
-        primaryStage.setScene(new Scene(root, 850, 900));
+        primaryStage.setScene(new Scene(root, 600, 670));
         primaryStage.show();
 
         //  connect the autonomous controller to the simulation sequencer
         RobotSimulationJavaFxController robotSimulationJavaFxController = loader.getController();
-        RobotModel m = robotSimulationJavaFxController.getRobotModel();
-        RobotMotion robotMotion = new SimulationRobotMotion(60, m);
 
-        //  run the main robotMotionSequencer loop
-        simulationMainRobotLoop = new MainRobotLoop(new SampleRobotMotionSequencer(robotMotion));
-
-        //  register the restart event handler
-        robotSimulationJavaFxController.registerRestartEventHandler(simulationMainRobotLoop);
-
-        simulationMainRobotLoop.start();
-
-
-        //  testing:
+        //  add all autonomous sequencers to the selection list
         try {
             ArrayList<Class<? extends RobotMotionSequencer>> robotMotionSequencers = new ArrayList<>();
             for (Class klass : getAllClassesFromPackage("com.lincolnRobotics.robotAutonomous"))
@@ -95,23 +81,6 @@ public class Main extends Application {
             ex.printStackTrace();
         }
 
-    }
-
-    /**
-     * This method is called when the application should stop, and provides a
-     * convenient place to prepare for application exit and destroy resources.
-     * <p>
-     * The implementation of this method provided by the Application class does nothing.
-     * </p>
-     * <p>
-     * NOTE: This method is called on the JavaFX Application Thread.
-     * </p>
-     */
-    @Override
-    public void stop() throws Exception {
-        if (simulationMainRobotLoop != null)
-            simulationMainRobotLoop.stop();
-        super.stop();
     }
 
     /**
@@ -176,6 +145,4 @@ public class Main extends Application {
         return classes;
     }
 
-
-    private MainRobotLoop simulationMainRobotLoop;
 }

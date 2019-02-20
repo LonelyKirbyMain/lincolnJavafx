@@ -11,10 +11,6 @@ import java.util.logging.Logger;
  */
 public class RobotMotionTest1 implements RobotMotionSequencer {
 
-    public RobotMotionTest1(RobotMotion robotMotion) {
-        this.robotMotion = robotMotion;
-    }
-
     @Override
     public void initialize() {
         state = 0;
@@ -86,11 +82,16 @@ public class RobotMotionTest1 implements RobotMotionSequencer {
         return robotMotion;
     }
 
+    @Override
+    public void setRobotMotion(RobotMotion robotMotion) {
+        this.robotMotion = robotMotion;
+    }
+
     protected int state = 0;
     protected int substate = 0;
     private int lastState = state;
 
-    protected final RobotMotion robotMotion;
+    protected RobotMotion robotMotion;
 
     //  note: if you copy this logger initialization, manually update the class name to your class
     private static final Logger logger = Logger.getLogger(RobotMotionTest1.class.getName());

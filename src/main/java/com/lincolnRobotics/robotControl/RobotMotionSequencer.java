@@ -33,7 +33,15 @@ public interface RobotMotionSequencer {
 
     /**
      * Supply the robot motion under the sequencer's control.
+     *
      * @return the robot motion under the sequencer's control
      */
     public RobotMotion getRobotMotion();
+
+    /**
+     * Set the sequencer's robot motion
+     *
+     * @param robotMotion the sequencer's robot motion
+     */
+    public void setRobotMotion(RobotMotion robotMotion);
 }
