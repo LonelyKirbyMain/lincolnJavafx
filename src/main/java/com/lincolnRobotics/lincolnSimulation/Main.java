@@ -21,6 +21,8 @@ import java.util.TreeSet;
  * The JavaFx application main routine.
  * JavaFx was chosen to minimize the impact on the Java code
  * in the lincolnControl package.
+ * <p>To enable logging: </p>
+ * <p>-Djava.util.logging.config.file=logging.properties</p>
  */
 public class Main extends Application {
 
