@@ -17,7 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -55,6 +55,7 @@ public class RobotSimulationJavaFxController {
             try {
                 robotMotionSequencer = classHashMap.get(sequencerSelection.getSelectionModel().getSelectedItem()).newInstance();
                 robotMotionSequencer.setRobotMotion(robotMotion);
+                simulationMainRobotLoop.setRobotMotionSequencer(robotMotionSequencer);
             } catch (InstantiationException e1) {
                 e1.printStackTrace();
             } catch (IllegalAccessException e1) {
@@ -92,7 +93,7 @@ public class RobotSimulationJavaFxController {
         simulationMainRobotLoop.start();
     }
 
-    public void setRobotAutonomousClasses(ArrayList<Class<? extends RobotMotionSequencer>> RobotMotionSequencerClasses) {
+    public void setRobotAutonomousClasses(Collection<Class<? extends RobotMotionSequencer>> RobotMotionSequencerClasses) {
 
         classHashMap.clear();
         sequencerSelection.getItems().clear();
@@ -140,11 +141,6 @@ public class RobotSimulationJavaFxController {
             radians += twoPi;
         return 360 * radians / twoPi;
     }
-
-    public RobotModel getRobotModel() {
-        return robotModel;
-    }
-
 
     private RobotModel robotModel;
     private RobotView robotView;

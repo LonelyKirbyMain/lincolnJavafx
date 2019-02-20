@@ -1,19 +1,19 @@
 package com.lincolnRobotics.robotAutonomous;
 
 import com.lincolnRobotics.robotControl.RobotMotion;
-import com.lincolnRobotics.robotControl.RobotMotionSequencer;
 import com.lincolnRobotics.robotControl.TerminationException;
 
 import java.util.logging.Logger;
 
 /**
  * A sample robot motion sequencer.
+ * Note that most of it's functionality comes from it's super class.
  */
-public class SampleRobotMotionSequencer implements RobotMotionSequencer {
+public class SampleRobotMotionSequencer extends AbstractRobotMotionSequencer {
 
-    @Override
-    public void initialize() {
-        state = 0;
+    public SampleRobotMotionSequencer() {
+        //  initialize the logger to our own so it can be controlled by the logging.properties file
+        logger = Logger.getLogger(SampleRobotMotionSequencer.class.getName());
     }
 
     /**
@@ -22,27 +22,32 @@ public class SampleRobotMotionSequencer implements RobotMotionSequencer {
      */
     @Override
     public void tick() {
+        processSubstate();
+
         try {
             switch (state) {
                 default:
                     state = 0;  //  error!
                 case 0:
                     logger.info("sequencer start");
-                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations, 0, 35, 4, false);
+                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations,
+                            0, 35, 4, false);
                     state++;
                     break;
                 case 1:
                     if (!robotMotion.isDone())
                         break;
                     logger.info("right turn isDone");
-                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations, 35, 35, 4, false);
+                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations,
+                            35, 35, 4, false);
                     state++;
                     break;
                 case 2:
                     if (!robotMotion.isDone())
                         break;
                     logger.info("straight isDone");
-                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations, -35, -35, 4, false);
+                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations,
+                            -35, -35, 4, false);
                     state++;
                     break;
                 case 3:
@@ -63,32 +68,4 @@ public class SampleRobotMotionSequencer implements RobotMotionSequencer {
             ex.printStackTrace();
         }
     }
-
-    @Override
-    public void stop() {
-        robotMotion.stop();
-        logger.info("sequencer stop");
-    }
-
-    @Override
-    public void restart() {
-        robotMotion.restart();
-        state = 0;
-    }
-
-    @Override
-    public RobotMotion getRobotMotion() {
-        return robotMotion;
-    }
-
-    @Override
-    public void setRobotMotion(RobotMotion robotMotion) {
-        this.robotMotion = robotMotion;
-    }
-
-    protected int state = 0;
-    protected RobotMotion robotMotion;
-
-    //  note: if you copy this logger initialization, manually update the class name to your class
-    private static final Logger logger = Logger.getLogger(SampleRobotMotionSequencer.class.getName());
 }

@@ -10,9 +10,11 @@ import java.util.logging.Logger;
  * robotics simulation.
  */
 public class SimulationRobotMotion implements RobotMotion {
+
     SimulationRobotMotion(double loopHertz, RobotModel robotModel) {
         this.loopHertz = loopHertz;
         this.robotModel = robotModel;
+        robotModel.reset();
     }
 
 

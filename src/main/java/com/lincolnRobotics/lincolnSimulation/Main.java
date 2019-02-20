@@ -10,10 +10,12 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * The JavaFx application main routine.
@@ -72,11 +74,25 @@ public class Main extends Application {
 
         //  add all autonomous sequencers to the selection list
         try {
-            ArrayList<Class<? extends RobotMotionSequencer>> robotMotionSequencers = new ArrayList<>();
-            for (Class klass : getAllClassesFromPackage("com.lincolnRobotics.robotAutonomous"))
+            //  create a set of classes where the classes are listed in order of their simple class name.
+            TreeSet<Class<? extends RobotMotionSequencer>> robotMotionSequencers = new TreeSet<>((o1, o2) -> {
+                return o1.getSimpleName().compareTo(o2.getSimpleName());
+            });
+
+            //  add all concrete classes that extend RobotMotionSequencer
+            for (Class klass : getAllClassesFromPackage("com.lincolnRobotics.robotAutonomous")) {
+                //  skip abstract classes
+                if (Modifier.isAbstract(klass.getModifiers()))
+                    continue;
+
+                //  add RobotMotionSequencer's to the list
                 if (RobotMotionSequencer.class.isAssignableFrom(klass))
                     robotMotionSequencers.add(klass);
+            }
+
+            //  let the javaFx controller know so it can create the sequencer selection list
             robotSimulationJavaFxController.setRobotAutonomousClasses(robotMotionSequencers);
+
         } catch (ClassNotFoundException | IOException ex) {
             ex.printStackTrace();
         }

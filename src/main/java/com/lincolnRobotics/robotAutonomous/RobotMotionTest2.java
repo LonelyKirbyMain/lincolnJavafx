@@ -6,14 +6,14 @@ import com.lincolnRobotics.robotControl.TerminationException;
 import java.util.logging.Logger;
 
 /**
- * A sample robot motion test for robot forward and reverse.
+ * A sample robot motion test for robot rotation.
  * Note that most of it's functionality comes from it's super class.
  */
-public class RobotMotionTest1 extends AbstractRobotMotionSequencer {
+public class RobotMotionTest2 extends AbstractRobotMotionSequencer {
 
-    public RobotMotionTest1() {
+    public RobotMotionTest2() {
         //  initialize the logger to our own so it can be controlled by the logging.properties file
-        logger = Logger.getLogger(RobotMotionTest1.class.getName());
+        logger = Logger.getLogger(RobotMotionTest2.class.getName());
     }
 
     /**
@@ -32,26 +32,17 @@ public class RobotMotionTest1 extends AbstractRobotMotionSequencer {
                 default:
                     state = 0;  //  error!
                 case 0:
-                    logger.info("sequencer: forward");
-                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations, 35, 35, 4, false);
+                    logger.info("sequencer rotate right");
+                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations,
+                            50, 0, 4, false);
                     state++;
                     break;
                 case 1:
                     if (!robotMotion.isDone())
                         break;
-                    logger.info("sequencer: reverse");
-                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations, -35, -35, 4, false);
-                    state++;
-                    break;
-                case 2:
-                    if (!robotMotion.isDone())
-                        break;
-                    state++;
-                    break;
-                case 3:
-                    //  idle a little
-                    if (subState < 25)
-                        break;
+                    logger.info("sequencer rotate left");
+                    robotMotion.moveTank(RobotMotion.MotionControl.onForRotations,
+                            0, 50, 4, false);
                     state = 0;      //  restart
                     break;
             }
