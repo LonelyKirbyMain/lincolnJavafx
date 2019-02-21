@@ -32,14 +32,14 @@ public class RobotMotionTest1 extends AbstractRobotMotionSequencer {
                 default:
                     state = 0;  //  error!
                 case 0:
-                    logger.info("sequencer: forward");
+                    logger.fine("sequencer: forward");
                     robotMotion.moveTank(RobotMotion.MotionControl.onForRotations, 35, 35, 4, false);
                     state++;
                     break;
                 case 1:
                     if (!robotMotion.isDone())
                         break;
-                    logger.info("sequencer: reverse");
+                    logger.fine("sequencer: reverse");
                     robotMotion.moveTank(RobotMotion.MotionControl.onForRotations, -35, -35, 4, false);
                     state++;
                     break;

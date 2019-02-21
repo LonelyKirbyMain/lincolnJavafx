@@ -68,21 +68,21 @@ public class RobotSimulationJavaFxController {
         new AnimationTimer() {
             @Override
             public void handle(long arg0) {
-                GraphicsContext graphicsContext2D = robotField.getGraphicsContext2D();
+                GraphicsContext graphicsContext = robotField.getGraphicsContext2D();
 
                 //  playing field
-                double w = graphicsContext2D.getCanvas().getWidth();
-                double h = graphicsContext2D.getCanvas().getHeight();
+                double w = graphicsContext.getCanvas().getWidth();
+                double h = graphicsContext.getCanvas().getHeight();
 
-                graphicsContext2D.setFill(Color.BEIGE);
-                graphicsContext2D.fillRect(0, 0, w, h);
+                graphicsContext.setFill(Color.BEIGE);
+                graphicsContext.fillRect(0, 0, w, h);
 
-                graphicsContext2D.setFill(Color.RED);
-                graphicsContext2D.fillRect(w / 2 - 125, h / 2 - 125, 50, 50);
-                graphicsContext2D.setFill(Color.BLUE);
-                graphicsContext2D.fillRect(w / 2 + 125, h / 2 - 125, 50, 50);
+                graphicsContext.setFill(Color.RED);
+                graphicsContext.fillRect(w / 2 - 125, h / 2 - 125, 50, 50);
+                graphicsContext.setFill(Color.BLUE);
+                graphicsContext.fillRect(w / 2 + 125, h / 2 - 125, 50, 50);
 
-                robotView.render(graphicsContext2D);
+                robotView.render(graphicsContext);
             }
         }.start();
 

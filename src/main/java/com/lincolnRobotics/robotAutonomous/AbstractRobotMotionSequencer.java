@@ -49,7 +49,7 @@ abstract public class AbstractRobotMotionSequencer implements RobotMotionSequenc
     protected void processSubstate() {
         if (lastState != state) {
             subState = 0;
-            logger.info(getClass().getSimpleName() + ": state: " + state);
+            logger.fine(getClass().getSimpleName() + ": state: " + state);
             lastState = state;
         } else
             subState++;
