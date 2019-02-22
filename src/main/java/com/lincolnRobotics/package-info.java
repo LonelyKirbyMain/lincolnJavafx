@@ -14,57 +14,58 @@
  *
  * <p>Projects </p>
  * <ul>
- *   <li>leo: field grahics, robot as well</li>
- *   <li>
+ * <li>leo: field grahics, robot as well</li>
+ * <li>
  * javadocs improved</li>
- <li>
+ * <li>
  * design review of the RobotMotion interface</li>
- *    <li>
- * 	include imaging</li>
- *    <li>
+ * <li>
+ * include imaging</li>
+ * <li>
  * adjust/improve sim RobotMotion interface</li>
- *    <li>
+ * <li>
  * bob: isolate robotMotion adapter</li>
- *    <li>
+ * <li>
  * ev3 RobotMotion interface implementation</li>
- *    <li>
+ * <li>
  * ftc RobotMotion interface implementation</li>
- *    <li>
+ * <li>
  * attempt to remove eclipse from ev3 development</li>
- *    <li>
+ * <li>
  * other robot sequences</li>
- *    <li>
+ * <li>
  * minerals in sim</li>
- *    <li>
+ * <li>
  * 3D sim view</li>
- *    <li>
+ * <li>
  * logging on ftc telmetry</li>
- *    <li>
+ * <li>
  * wifi debugging on ftc</li>
- *    <li>
+ * <li>
  * better intro for beginners</li>
- *    <li>
+ * <li>
  * document ftc setup stuff</li>
- *    <li>
+ * <li>
  * tom: adding imaging to the sim</li>
- *    <li>
+ * <li>
  * tune sim accuracy to ftc environment</li>
- *    <li>
- * nick: image decoding</li>
- *    <li>
- * 	research,
- * 	design api,
- * 	design api tests & test env,
- * 	design development env,
- * 	prototype the dev env,
- * 	UI required?  no,
- * 	implement the api,
- * 	test api,
- * 	inject project back to lincoln robotMotion code,
- * 		repair sim & ev3 implementations
- * 	test robot</li>
- *   <li>Lejos EV3 robots</li>
- *  </ul>
- *
+ * <li>
+ * nick: image decoding
+ * <ul>
+ * <li>research</li>
+ * <li>design api</li>
+ * <li>design api tests and test env</li>
+ * <li>design development env</li>
+ * <li>prototype the dev env</li>
+ * <li>UI required?  no</li>
+ * <li>implement the api</li>
+ * <li>test api</li>
+ * <li>inject project back to lincoln robotMotion code</li>
+ * <li>repair sim and ev3 implementations</li>
+ * <li>test robot</li>
+ * </ul>
+ * </li>
+ * <li>Lejos EV3 robots</li>
+ * </ul>
  */
 package com.lincolnRobotics;
