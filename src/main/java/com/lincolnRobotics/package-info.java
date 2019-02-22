@@ -12,17 +12,12 @@
  * <p>This demands that the dependency on these environments should not leak to
  * the robot control package.</p>
  *
- * <p>Projects </p>
+ * <p>Potential Student Projects </p>
  * <ul>
+ * <li>javadocs improved</li>
+ * <li>design review of the RobotMotion interface (include imaging)</li>
  * <li>leo: field grahics, robot as well</li>
- * <li>
- * javadocs improved</li>
- * <li>
- * design review of the RobotMotion interface</li>
- * <li>
- * include imaging</li>
- * <li>
- * adjust/improve sim RobotMotion interface</li>
+ * <li>adjust/improve sim RobotMotion interface</li>
  * <li>
  * bob: isolate robotMotion adapter</li>
  * <li>
@@ -30,7 +25,7 @@
  * <li>
  * ftc RobotMotion interface implementation</li>
  * <li>
- * attempt to remove eclipse from ev3 development</li>
+ * bob: attempt to remove eclipse from ev3 development</li>
  * <li>
  * other robot sequences</li>
  * <li>
@@ -38,15 +33,15 @@
  * <li>
  * 3D sim view</li>
  * <li>
- * logging on ftc telmetry</li>
+ * Java logging on ftc telemetry stream</li>
  * <li>
- * wifi debugging on ftc</li>
+ * wifi debugging on ftc documentation</li>
  * <li>
  * better intro for beginners</li>
  * <li>
  * document ftc setup stuff</li>
  * <li>
- * tom: adding imaging to the sim</li>
+ * tom: adding imaging to the (simulating the image API in the simulation)</li>
  * <li>
  * tune sim accuracy to ftc environment</li>
  * <li>

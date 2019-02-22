@@ -14,8 +14,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.paint.Color;
-import javafx.scene.transform.Rotate;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -70,17 +68,7 @@ public class RobotSimulationJavaFxController {
             public void handle(long arg0) {
                 GraphicsContext graphicsContext = robotField.getGraphicsContext2D();
 
-                //  playing field
-                double w = graphicsContext.getCanvas().getWidth();
-                double h = graphicsContext.getCanvas().getHeight();
-
-                graphicsContext.setFill(Color.BEIGE);
-                graphicsContext.fillRect(0, 0, w, h);
-
-                graphicsContext.setFill(Color.RED);
-                graphicsContext.fillRect(w / 2 - 125, h / 2 - 125, 50, 50);
-                graphicsContext.setFill(Color.BLUE);
-                graphicsContext.fillRect(w / 2 + 125, h / 2 - 125, 50, 50);
+                RobotFieldGraphics.render(graphicsContext);
 
                 robotView.render(graphicsContext);
             }
@@ -111,51 +99,10 @@ public class RobotSimulationJavaFxController {
         }
     }
 
-    private class RobotView {
-        RobotView(RobotModel robotModel) {
-            this.robotModel = robotModel;
-        }
-
-        void render(GraphicsContext gc) {
-            gc.save(); // saves the current state on stack, including the current transform
-            double canvasH = gc.getCanvas().getHeight();  //  used to deal with upside down y axis
-
-            //  rotate
-            double rw = robotModel.getWidthCm() * pixelsPerCm;
-            double rh = robotModel.getLengthCm() * pixelsPerCm;
-            Rotate rot = new Rotate(radiansToDegrees(robotModel.getRotation()),
-                    robotModel.getX() + rw / 2,
-                    canvasH - (robotModel.getY() - rh / 2));
-            gc.setTransform(rot.getMxx(), rot.getMyx(), rot.getMxy(), rot.getMyy(), rot.getTx(), rot.getTy());
-
-
-            //  robotMotionSequencer
-            gc.setFill(cardinal);
-            gc.fillRect(robotModel.getX(), canvasH - robotModel.getY(), rw, rh);
-            gc.setFill(green);
-            gc.fillRect(robotModel.getX(), canvasH - robotModel.getY(), rw / 5, rh);
-
-            gc.restore(); // back to original state (before rotation)
-        }
-
-        private final RobotModel robotModel;
-        private static final double pixelsPerCm = 2;
-    }
-
-    private double radiansToDegrees(double radians) {
-        radians %= twoPi;
-        if (radians < 0)
-            radians += twoPi;
-        return 360 * radians / twoPi;
-    }
-
     private RobotModel robotModel;
     private RobotView robotView;
     private RobotMotion robotMotion;
     private RobotMotionSequencer robotMotionSequencer;
     private MainRobotLoop simulationMainRobotLoop;
     private HashMap<String, Class<? extends RobotMotionSequencer>> classHashMap = new HashMap<>();
-    private static final Color cardinal = Color.web("be392a");
-    private static final Color green = Color.web("00b000");
-    private static final double twoPi = 2 * Math.PI;
 }
