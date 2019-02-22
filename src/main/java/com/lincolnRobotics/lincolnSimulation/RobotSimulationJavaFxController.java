@@ -93,6 +93,13 @@ public class RobotSimulationJavaFxController {
         simulationMainRobotLoop.start();
     }
 
+    @FXML
+    public void stop()
+            throws Exception {
+        simulationMainRobotLoop.stop();
+
+    }
+
     public void setRobotAutonomousClasses(Collection<Class<? extends RobotMotionSequencer>> RobotMotionSequencerClasses) {
 
         classHashMap.clear();
