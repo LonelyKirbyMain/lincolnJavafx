@@ -26,7 +26,8 @@ class RobotView {
         gc.setFill(cardinal);
         gc.fillRect(robotModel.getX(), canvasH - robotModel.getY(), rw, rh);
         gc.setFill(green);
-        gc.fillRect(robotModel.getX(), canvasH - robotModel.getY(), rw / 5, rh);
+        double frontBarWidth = rw / 5;
+        gc.fillRect(robotModel.getX() + rw - frontBarWidth, canvasH - robotModel.getY(), frontBarWidth, rh);
 
         gc.restore(); // back to original state (before rotation)
     }
@@ -36,7 +37,7 @@ class RobotView {
         radians %= twoPi;
         if (radians < 0)
             radians += twoPi;
-        return 360 * radians / twoPi;
+        return -360 * radians / twoPi;
     }
 
     private static final double twoPi = 2 * Math.PI;

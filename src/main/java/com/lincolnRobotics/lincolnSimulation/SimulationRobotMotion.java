@@ -86,17 +86,17 @@ public class SimulationRobotMotion implements RobotMotion {
             speedPercent = 0;
         } else {
             //  create local copy of the raw positions
-            double theta = robotModel.getRotation();
+            double rotation = robotModel.getRotation();
             double x = robotModel.getX();
             double y = robotModel.getY();
 
             //  update the positions
             double steering = fullSteering * steeringPercent / 100;
-            double dTheta = steering / samplesPerSecond;
+            double deltaRotation = steering / samplesPerSecond;
 
-            theta += dTheta;
-            double dx = speed * Math.sin(theta);
-            double dy = -speed * Math.cos(theta);
+            rotation += deltaRotation;
+            double dx = speed * Math.cos(rotation);
+            double dy = speed * Math.sin(rotation);
 
             //  update the local positions
             x += dx;
@@ -104,11 +104,10 @@ public class SimulationRobotMotion implements RobotMotion {
 
             //  output the new values
             robotModel.setDisplayLocation(x, y);
-            robotModel.setRotation(theta);
+            robotModel.setRotation(rotation);
         }
 
-
-        logger.fine(String.format("sim: pos(%6.1f, %6.1f), theta: %7.2f",
+        logger.fine(String.format("sim: pos(%6.1f, %6.1f), rotation: %7.2f",
                 robotModel.getX(), robotModel.getY(), robotModel.getRotation()));
     }
 

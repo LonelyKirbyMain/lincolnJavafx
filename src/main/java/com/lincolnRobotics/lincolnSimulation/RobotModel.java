@@ -82,7 +82,7 @@ class RobotModel {
      */
     final void reset() {
         setDisplayLocation(maxFieldWidth / 2, maxFieldHeight / 2);
-        setRotation(-Math.PI / 4);
+        setRotation(0);
     }
 
     public double getWidthCm() {
@@ -118,7 +118,7 @@ class RobotModel {
     private double lengthCm = widthCm;
     private double x = 100;
     private double y = 100;
-    private double rotation = 0; //  rotation in radians
+    private double rotation; //  rotation in radians
     private final double maxFieldWidth;
     private final double maxFieldHeight;
 }
