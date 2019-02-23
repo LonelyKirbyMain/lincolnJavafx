@@ -16,6 +16,13 @@ import java.util.logging.Logger;
  */
 abstract public class AbstractRobotMotionSequencer implements RobotMotionSequencer {
 
+    public AbstractRobotMotionSequencer() {
+    }
+
+    public AbstractRobotMotionSequencer( RobotMotion robotMotion) {
+        this.robotMotion = robotMotion;
+    }
+
     @Override
     public void initialize() {
         state = 0;

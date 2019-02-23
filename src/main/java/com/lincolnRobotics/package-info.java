@@ -11,7 +11,23 @@
  * </ul>
  * <p>This demands that the dependency on these environments should not leak to
  * the robot control package.</p>
- *
+ * <p>Notes for use on Intellij Idea from Jetbrains</p>
+ * <ul>
+ * <li>java -version</li>
+ * <li>https://jdk.java.net/
+ * <ul><li>Java 9 or higher does not automatically include JavaFx (the graphics package for the simulation)</li>
+ * <li>Java 8 does include JavaFx so https://jdk.java.net/java-se-ri/8 will be a little easier.</li>
+ * </ul></li>
+ * <li>https://www.jetbrains.com/idea/
+ * <ul><li>Use the community version.</li>
+ * </ul></li>
+ * <li>-Djava.util.logging.config.file=logging.properties</li>
+ * <li>compile javadoc:javadoc exec:java</li>
+ * <li>Caused by: java.lang.IllegalStateException: Location is not set.
+ * <ul><li></li>
+ * <li>Java 8 does include JavaFx so https://jdk.java.net/java-se-ri/8 will be a little easier.</li>
+ * </ul></li>
+ * </ul>
  * <p>Potential Student Projects </p>
  * <ul>
  * <li>javadocs improved</li>
