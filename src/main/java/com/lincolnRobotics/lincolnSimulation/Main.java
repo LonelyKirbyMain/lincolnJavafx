@@ -72,7 +72,7 @@ public class Main extends Application {
         primaryStage.show();
 
         //  connect the autonomous controller to the simulation sequencer
-        RobotSimulationJavaFxController robotSimulationJavaFxController = loader.getController();
+         robotSimulationJavaFxController = loader.getController();
 
         //  add all autonomous sequencers to the selection list
         try {
@@ -99,6 +99,10 @@ public class Main extends Application {
             ex.printStackTrace();
         }
 
+    }
+
+    public void stop() throws Exception {
+        robotSimulationJavaFxController.stop();
     }
 
     /**
@@ -162,5 +166,7 @@ public class Main extends Application {
         }
         return classes;
     }
+
+    private RobotSimulationJavaFxController robotSimulationJavaFxController;
 
 }

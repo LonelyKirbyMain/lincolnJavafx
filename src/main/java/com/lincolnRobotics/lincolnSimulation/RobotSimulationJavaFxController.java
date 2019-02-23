@@ -85,7 +85,6 @@ public class RobotSimulationJavaFxController {
     public void stop()
             throws Exception {
         simulationMainRobotLoop.stop();
-
     }
 
     public void setRobotAutonomousClasses(Collection<Class<? extends RobotMotionSequencer>> RobotMotionSequencerClasses) {
