@@ -3,6 +3,7 @@ package com.lincolnRobotics.robotAutonomous;
 import com.lincolnRobotics.robotControl.RobotMotion;
 import com.lincolnRobotics.robotControl.TerminationException;
 
+import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
 /**
@@ -11,18 +12,9 @@ import java.util.logging.Logger;
  */
 public class SampleRobotMotionSequencer extends AbstractRobotMotionSequencer {
 
-    public SampleRobotMotionSequencer(RobotMotion robotMotion) {
-        super(robotMotion);
-        setLogger();
-    }
-
     public SampleRobotMotionSequencer() {
-        setLogger();
-    }
-    
-    private void setLogger(){
         //  initialize the logger to our own so it can be controlled by the logging.properties file
-        logger = Logger.getLogger(SampleRobotMotionSequencer.class.getName());
+        logger = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     }
 
     /**

@@ -15,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -51,12 +52,18 @@ public class RobotSimulationJavaFxController {
         sequencerSelection.setOnAction((e) -> {
             robotMotionSequencer.stop();
             try {
-                robotMotionSequencer = classHashMap.get(sequencerSelection.getSelectionModel().getSelectedItem()).newInstance();
+                Class<? extends RobotMotionSequencer> klass =
+                        classHashMap.get(sequencerSelection.getSelectionModel().getSelectedItem());
+                robotMotionSequencer = klass.getDeclaredConstructor().newInstance();
                 robotMotionSequencer.setRobotMotion(robotMotion);
                 simulationMainRobotLoop.setRobotMotionSequencer(robotMotionSequencer);
             } catch (InstantiationException e1) {
                 e1.printStackTrace();
             } catch (IllegalAccessException e1) {
+                e1.printStackTrace();
+            } catch (NoSuchMethodException e1) {
+                e1.printStackTrace();
+            } catch (InvocationTargetException e1) {
                 e1.printStackTrace();
             }
 
