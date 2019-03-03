@@ -133,6 +133,7 @@ public class SimulationRobotMotion implements RobotMotion {
 
     /**
      * Samples per second of the main loop
+     * @return the samples per second of the main loop
      */
     public double getLoopHertz() {
         return loopHertz;

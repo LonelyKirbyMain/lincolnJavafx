@@ -33,7 +33,7 @@ public class RobotSimulationJavaFxController {
     private Button restartButton;
 
     @FXML
-    ComboBox sequencerSelection;
+    ComboBox<String> sequencerSelection;
 
     @FXML
     private void initialize() {
@@ -99,7 +99,7 @@ public class RobotSimulationJavaFxController {
         classHashMap.clear();
         sequencerSelection.getItems().clear();
         ObservableList<String> list = sequencerSelection.getItems();
-        for (Class klass : RobotMotionSequencerClasses) {
+        for (Class<? extends RobotMotionSequencer> klass : RobotMotionSequencerClasses) {
             classHashMap.put(klass.getSimpleName(), klass);
             list.add(klass.getSimpleName());
         }
