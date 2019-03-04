@@ -55,7 +55,7 @@
                     <compilerArgument>-Xlint:unchecked</compilerArgument>
                     <!--    include the configuration below for java 11, comment it out for java 8  -->
                     <!--    pom.xml comments look like this -->
-                    <release>11</release>
+                    <!--<release>11</release>-->
                 </configuration>
             </plugin>
 
