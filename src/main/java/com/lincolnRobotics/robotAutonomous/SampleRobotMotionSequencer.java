@@ -18,6 +18,18 @@ public class SampleRobotMotionSequencer extends AbstractRobotMotionSequencer {
     }
 
     /**
+     * States names for the states in the finite state machine of the command sequencer.
+     */
+    private enum State {
+        start,
+        waitForRightTurn,
+        waitForForward,
+        waitForReverse,
+        wait,
+        idle;
+    }
+
+    /**
      * This method will be called every cycle of the main loop, i.e. tick of the clock.
      * Overload this method to control the robot as per your autonomous mode.
      */
@@ -25,43 +37,50 @@ public class SampleRobotMotionSequencer extends AbstractRobotMotionSequencer {
     public void tick() {
         processSubstate();
 
+        //  note: this is pretty dangerous in general but should work for the simulation
+        if (!robotMotion.isDone())
+            return;
+
+        //  sequence through the state machine
         try {
-            switch (state) {
+            switch (currentState) {
                 default:
-                    state = 0;  //  error!
-                case 0:
+                    currentState = State.start;  //  error!
+                case start:
                     logger.info("sequencer start");
                     robotMotion.moveTank(RobotMotion.MotionControl.onForRotations,
                             0, 35, 4, false);
-                    state++;
+                    currentState = State.waitForRightTurn;
                     break;
-                case 1:
-                    if (!robotMotion.isDone())
-                        break;
+
+                case waitForRightTurn:
                     logger.info("right turn isDone");
+
                     robotMotion.moveTank(RobotMotion.MotionControl.onForRotations,
                             35, 35, 4, false);
-                    state++;
+                    currentState = State.waitForForward;
                     break;
-                case 2:
-                    if (!robotMotion.isDone())
-                        break;
-                    logger.info("straight isDone");
+
+                case waitForForward:
+                    logger.info("forward isDone");
                     robotMotion.moveTank(RobotMotion.MotionControl.onForRotations,
                             -35, -35, 4, false);
-                    state++;
+                    currentState = State.waitForReverse;
                     break;
-                case 3:
-                    if (!robotMotion.isDone())
-                        break;
+
+                case waitForReverse:
                     logger.info("reverse isDone");
-                    state++;
+                    currentState = State.wait;
                     break;
-                case 4:
+
+                case wait:
+                    if (subState < 10)
+                        break;
                     logger.info("sequencer done");
-                    state++;
+                    currentState = State.idle;
                     break;
-                case 5:
+
+                case idle:
                     //  idle
                     break;
             }
@@ -69,4 +88,6 @@ public class SampleRobotMotionSequencer extends AbstractRobotMotionSequencer {
             ex.printStackTrace();
         }
     }
+
+    private State currentState = State.start;
 }
