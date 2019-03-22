@@ -5,16 +5,12 @@ import com.lincolnRobotics.robotControl.TerminationException;
 
 import java.util.logging.Logger;
 
-import static java.lang.StrictMath.atan;
-
 /**
  * Mapping of the robot motion interface to the Lincoln
  * robotics simulation.
  */
 public class SimulationRobotMotion implements RobotMotion {
 
-    private double lWheel;
-    private double rWheel;
     SimulationRobotMotion(double loopHertz, RobotModel robotModel) {
         this.loopHertz = loopHertz;
         this.robotModel = robotModel;
@@ -42,9 +38,7 @@ public class SimulationRobotMotion implements RobotMotion {
         powerRightPercent = limit100(powerRightPercent);
         wheelRotations = rotations;
 
-        lWheel = powerLeftPercent;
-        rWheel = powerRightPercent;
-        speedPercent = (powerLeftPercent + powerRightPercent) / 2.0;
+        speedPercent = (powerLeftPercent + powerRightPercent) / 2;
         double steeringScale = Math.abs(powerLeftPercent) + Math.abs(powerRightPercent);
         if (steeringScale > 0) {
             steeringPercent = 100 * (powerRightPercent - powerLeftPercent) / steeringScale;
@@ -95,13 +89,12 @@ public class SimulationRobotMotion implements RobotMotion {
             double rotation = robotModel.getRotation();
             double x = robotModel.getX();
             double y = robotModel.getY();
-            double cmLWheel = fullSpeed * lWheel / 100;
-            double cmRWheel = fullSpeed * rWheel / 100;
-            logger.finer(cmLWheel + ", " + cmRWheel);
-            double dTheta = atan((cmLWheel - cmRWheel) / robotModel.getWidthCm());
-            //  update the positions
 
-            rotation += dTheta;
+            //  update the positions
+            double steering = fullSteering * steeringPercent / 100;
+            double deltaRotation = steering / samplesPerSecond;
+
+            rotation += deltaRotation;
             double dx = speed * Math.cos(rotation);
             double dy = speed * Math.sin(rotation);
 
@@ -193,6 +186,7 @@ public class SimulationRobotMotion implements RobotMotion {
         tank,
         steering
     }
+
 
     private final double loopHertz;
     private MotionType motionType = MotionType.tank;
